@@ -5,11 +5,11 @@ const UnknownCard = () =>
     <Card>
         <Card.Img variant="top" src="https://cdn11.bigcommerce.com/s-ebhaloj/images/stencil/1280x1280/products/6750/12455/KOIYGSLEEVE__99423.1567709419.jpg?c=2&imbypass=on" />
         <Card.Body>
-        <Card.Title> No title </Card.Title>
-        <Card.Text> No description </Card.Text>
+            <Card.Title> No title </Card.Title>
+            <Card.Text> No description </Card.Text>
         </Card.Body>
         <Card.Footer>
-        <small className="text-muted"> No note </small>
+            <small className="text-muted"> No note </small>
         </Card.Footer>
     </Card>
 

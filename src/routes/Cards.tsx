@@ -74,6 +74,13 @@ function Cards() {
       description: "Exodia is an archetype of DARK Spellcaster monsters, with its first member released in Legend of Blue Eyes White Dragon and its first support released in Millennium Box Gold Edition",
       title: "Exodia's left arm",
       note: "This monster is Invictible"
+    },
+    {
+      id: 11, 
+      image_url: "https://www.sell2bbnovelties.com/mm5/yugioh/YU_RP01EN024_480x705.jpg",
+      description: "Exodia is an archetype of DARK Spellcaster monsters, with its first member released in Legend of Blue Eyes White Dragon and its first support released in Millennium Box Gold Edition",
+      title: "Summoned Skull",
+      note: "This monster is Invictible"
     }
   ];
  

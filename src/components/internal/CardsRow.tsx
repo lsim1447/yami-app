@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, CardDeck } from 'react-bootstrap';
 import YuGiOhCard, { ICard } from './../external/YuGiOhCard';
+import FlipCard from './../external/FlipCard';
 import { MAX_NUMBER_OF_CARDS_IN_ONE_ROW } from './../../constants';
 
 type CardRowProps = {
@@ -23,7 +24,7 @@ const CardRow = ({ cards } : CardRowProps) => {
         <CardDeck>
         {
             cards.map(card => 
-                <YuGiOhCard 
+                <FlipCard 
                     id={card.id}
                     image_url={card.image_url}
                     description={card.description}
