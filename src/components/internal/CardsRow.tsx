@@ -1,38 +1,40 @@
 import React from 'react';
 import { Card, CardDeck } from 'react-bootstrap';
-
-export interface ICard
-{
-    id: number, 
-    image_url: string,
-    description: string,
-    title: string,
-    note: string
-}
+import YuGiOhCard, { ICard } from './../external/YuGiOhCard';
+import { MAX_NUMBER_OF_CARDS_IN_ONE_ROW } from './../../constants';
 
 type CardRowProps = {
-    cards: ICard[]
+    cards: ICard[]  
 }
 
-const CardRow = ({ cards } : CardRowProps) =>
-    <CardDeck>
-      {
-        cards.map(card => {
-          return (
-            <Card>
-              <Card.Img variant="top" src={ card.image_url } />
-              <Card.Body>
-                <Card.Title> { card.title } </Card.Title>
-                <Card.Text> { card.description } </Card.Text>
-              </Card.Body>
-              <Card.Footer>
-                <small className="text-muted"> { card.note } </small>
-              </Card.Footer>
-            </Card>
-          );
+const CardRow = ({ cards } : CardRowProps) => {
+    
+    for (let index = (cards.length % MAX_NUMBER_OF_CARDS_IN_ONE_ROW ? cards.length % MAX_NUMBER_OF_CARDS_IN_ONE_ROW : MAX_NUMBER_OF_CARDS_IN_ONE_ROW); index < MAX_NUMBER_OF_CARDS_IN_ONE_ROW; index++) {
+        cards.push({
+            id: Math.floor(Math.random() * (100000 - 0 + 1)) + 0, 
+            image_url: "https://cdn11.bigcommerce.com/s-ebhaloj/images/stencil/1280x1280/products/6750/12455/KOIYGSLEEVE__99423.1567709419.jpg?c=2&imbypass=on",
+            description: "No description",
+            title: "No title",
+            note: "No note"
         })
-      }
-    </CardDeck>
+    }
+
+    return (
+        <CardDeck>
+        {
+            cards.map(card => 
+                <YuGiOhCard 
+                    id={card.id}
+                    image_url={card.image_url}
+                    description={card.description}
+                    title={card.title}
+                    note={card.note}
+                />
+            )
+        }
+        </CardDeck>
+    );
+}
 
 
 export default CardRow;
