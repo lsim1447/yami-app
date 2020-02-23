@@ -1,6 +1,6 @@
 import React from 'react';
-import { Card, CardDeck } from 'react-bootstrap';
-import YuGiOhCard, { ICard } from './../external/YuGiOhCard';
+import { CardDeck } from 'react-bootstrap';
+import { ICard } from './../external/YuGiOhCard';
 import FlipCard from './../external/FlipCard';
 import { MAX_NUMBER_OF_CARDS_IN_ONE_ROW } from './../../constants';
 

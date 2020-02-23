@@ -1,19 +1,7 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
-import YuGiOhCard, { ICard } from './YuGiOhCard';
-import UnknownCard from './UnknownCard';
+import { ICard } from './YuGiOhCard';
 import styled from 'styled-components';
-import "./FlipCard.css";
-
-const FlipCardContainer = styled.div `
-    background-color: transparent;
-    width: auto;
-    height: auto;
-    perspective: 1000px;
-    &:hover {
-        transform: rotateY(180deg);
-    }
-`;
 
 const FlipCardInner = styled.div `
     position: relative;
@@ -23,7 +11,18 @@ const FlipCardInner = styled.div `
     transition: transform 0.6s;
     transform-style: preserve-3d;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    transform: rotateY(180deg);
+`;
+
+const FlipCardContainer = styled.div `
+    background-color: #eee9e5;
+    width: 290px;
+    height: 420px;
+    perspective: 1000px;
+    &:hover {
+        ${FlipCardInner} {
+            transform: rotateY(180deg);
+        }
+    }
 `;
 
 const FlipCardFront = styled.div `
@@ -48,17 +47,17 @@ const FlipCardBack = styled.div `
 `;
 
 const FlipCard = ({ id, image_url, title, description, note } : ICard) => 
-    <Card>
-        <div className="flip-card">
-            <div className="flip-card-inner">
-                <div className="flip-card-front">
+    <Card style={{minWidth: "290px"}}>
+        <FlipCardContainer>
+            <FlipCardInner>
+                <FlipCardFront>
                     <Card.Img variant="top" src={ image_url } />
-                </div>
-                <div className="flip-card-back">
+                </FlipCardFront>
+                <FlipCardBack>
                     <Card.Img variant="top" src="https://cdn11.bigcommerce.com/s-ebhaloj/images/stencil/1280x1280/products/6750/12455/KOIYGSLEEVE__99423.1567709419.jpg?c=2&imbypass=on" />
-                </div>
-            </div>
-        </div>
+                </FlipCardBack>
+            </FlipCardInner>
+        </FlipCardContainer>
 
         <Card.Body>
             <Card.Title> { title } </Card.Title>

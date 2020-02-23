@@ -11,7 +11,7 @@ export interface ICard
 }
 
 const YuGiOhCard = ({ image_url, title, description, note } : ICard) => 
-    <Card>
+    <Card style={{minWidth: "290px"}}>
         <Card.Img variant="top" src={ image_url } />
         <Card.Body>
             <Card.Title> { title } </Card.Title>
