@@ -1,17 +1,36 @@
 import React from 'react';
 import { Button, Form, FormControl, Navbar, Nav } from 'react-bootstrap';
+import styled from 'styled-components';
+
+const NavBarImage = styled.img `
+    max-width: 55px;
+    max-height: 55px;
+    margin-right: 20px;
+    position: relative;
+    top: -4px;
+`;
+
+const BrandText = styled.strong `
+    font-size: 34px;
+    position: relative;
+    top: 4px;
+`;
 
 function NavigationBar(props: any) {
   return (
     <div>
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-        <Navbar.Brand href="/">Yu-gi-oh </Navbar.Brand>
+        <Navbar.Brand href="/">
+            <NavBarImage src="milleniumicon.png" alt="" />
+            <BrandText>Yu-gi-oh</BrandText> 
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link href="/cards">Cards</Nav.Link>
+            
           </Nav>
           <Nav>
+            <Nav.Link href="/cards">Cards</Nav.Link>
             <Nav.Link href="/my-deck">My Deck</Nav.Link>
             <Nav.Link eventKey={2} href="/history"> History </Nav.Link>
           </Nav>
