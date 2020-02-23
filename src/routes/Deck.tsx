@@ -70,7 +70,7 @@ function Deck() {
 
   return (
     <Tab.Container id="left-tabs-example" defaultActiveKey="first">
-      <Row>
+      <Row style={{backgroundImage: `url(deck_background_image_1.jpg)`}}>
         <Col style={{backgroundColor: "#343a40", color: "white", minHeight: "100vh" }} sm={1}>
           <Nav  variant="pills" className="flex-column">
             {
