@@ -21,7 +21,7 @@ function NavigationBar(props: any) {
     <div>
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
         <Navbar.Brand href="/">
-            <NavBarImage src="./milleniumicon.png" alt="" />
+            <NavBarImage src="milleniumIcon.png" alt="" />
             <BrandText>Yu-gi-oh</BrandText> 
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />

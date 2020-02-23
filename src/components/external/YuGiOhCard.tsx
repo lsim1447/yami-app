@@ -5,9 +5,10 @@ export interface ICard
 {
     id: number, 
     image_url: string,
-    description: string,
     title: string,
-    note: string
+    description: string,
+    note: string,
+    type: string
 }
 
 const YuGiOhCard = ({ image_url, title, description, note } : ICard) => 

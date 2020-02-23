@@ -14,9 +14,10 @@ const CardRow = ({ cards } : CardRowProps) => {
         cards.push({
             id: Math.floor(Math.random() * (100000 - 0 + 1)) + 0, 
             image_url: "https://cdn11.bigcommerce.com/s-ebhaloj/images/stencil/1280x1280/products/6750/12455/KOIYGSLEEVE__99423.1567709419.jpg?c=2&imbypass=on",
-            description: "No description",
             title: "No title",
-            note: "No note"
+            description: "No description",
+            note: "No note",
+            type: "Undefined"
         })
     }
 
@@ -30,6 +31,7 @@ const CardRow = ({ cards } : CardRowProps) => {
                     description={card.description}
                     title={card.title}
                     note={card.note}
+                    type={card.type}
                 />
             )
         }
