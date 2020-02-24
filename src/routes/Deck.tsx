@@ -13,16 +13,28 @@ export interface IListItem
 }
 
 const ListItem = styled.div `
-  border-bottom: 3px solid #ffffff;
-  border-top: 3px solid #ffffff;
+  border: 3px solid #ffffff;
+  background-color: #000000;
   color: #FFFFFF;
   font-size: 18px;
   font-weight: bold;
   padding-top: 36px;
   padding-bottom: 36px;
+  padding-left: 24px;
+  padding-right: 24px;
   text-align: center;
   &:hover {
-    color: red;
+    background-color: red;
+    border: 3px solid red;
+    color: black;
+  }
+`;
+
+const NavContainer = styled.div `
+  @media (min-width: 768px) {
+    position: fixed;
+    background-color: "#343a40"
+    color: white;
   }
 `;
 
@@ -71,22 +83,24 @@ function Deck() {
   return (
     <Tab.Container id="left-tabs-example" defaultActiveKey="first">
       <Row style={{backgroundImage: `url(deck_background_image_1.jpg)`}}>
-        <Col style={{backgroundColor: "#343a40", color: "white", minHeight: "100vh" }} sm={1}>
-          <Nav  variant="pills" className="flex-column">
-            {
-              lateralBar.map(item => {
-                return(
-                  <Nav.Item>
-                    <Nav.Link eventKey={item.eventKey}>
-                      <ListItem>
-                        { item.text } 
-                      </ListItem>
-                    </Nav.Link>
-                  </Nav.Item>
-                )
-              })
-            }
-          </Nav>
+        <Col style={{ minHeight: "100vh", marginTop: "50px" }} sm={2}>
+          <NavContainer>
+            <Nav  variant="pills" className="flex-column">
+              {
+                lateralBar.map(item => {
+                  return(
+                    <Nav.Item>
+                      <Nav.Link eventKey={item.eventKey}>
+                        <ListItem>
+                          { item.text } 
+                        </ListItem>
+                      </Nav.Link>
+                    </Nav.Item>
+                  )
+                })
+              }
+            </Nav>
+          </NavContainer>
         </Col>
         <Col>
           <Tab.Content>

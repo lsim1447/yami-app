@@ -1,10 +1,20 @@
 import React from 'react';
-import { Image } from 'react-bootstrap';
+import { Carousel } from 'react-bootstrap';
+import styled from 'styled-components';
+
+const HomePageContainer = styled.div `
+  background: url(homepage_background_1.jpg) no-repeat center center fixed; 
+  position: fixed;  
+  left: 0; 
+  min-width: 100%;
+  min-height: 100%;
+`;
 
 function Home() {
   return (
-    <div style={{backgroundImage: `url(homepage_background_1.jpg)`, backgroundRepeat: "no-repeat" , height: "1200px"}}>
-    </div>
+    <HomePageContainer>
+      
+    </HomePageContainer>
   );
 }
 
