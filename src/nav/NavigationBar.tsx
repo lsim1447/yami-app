@@ -31,6 +31,7 @@ function NavigationBar(props: any) {
           </Nav>
           <Nav>
             <Nav.Link href="/cards">Cards</Nav.Link>
+            <Nav.Link href="/test">Test</Nav.Link>
             <Nav.Link href="/my-deck">My Deck</Nav.Link>
             <Nav.Link eventKey={2} href="/history"> History </Nav.Link>
           </Nav>

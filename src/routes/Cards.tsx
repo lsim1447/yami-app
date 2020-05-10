@@ -1,7 +1,7 @@
 import React from 'react';
-import { ICard } from './../components/external/YuGiOhCard';
-import CardMap from './../components/external/CardMap';
-import { cards } from './../FakeApi';
+import { ICard } from '../components/external/YuGiOhCard';
+import CardMap from '../components/external/CardMap';
+import { cards } from '../FakeApi';
 
 function Cards() {
   const all_cards: ICard[] = cards;

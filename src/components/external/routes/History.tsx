@@ -1,9 +1,9 @@
 import React from 'react';
 import { Col, Row, Nav, Tab } from 'react-bootstrap';
 import styled from 'styled-components';
-import CardMap from './../components/external/CardMap';
-import { ICard } from './../components/external/YuGiOhCard';
-import { cards } from './../FakeApi';
+import CardMap from '../CardMap';
+import { ICard } from '../YuGiOhCard';
+import { cards } from '../../../FakeApi';
 
 export interface IListItem
 {

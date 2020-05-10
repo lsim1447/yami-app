@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
+import Test from './routes/Test';
 import Cards from './routes/Cards';
 import Deck from './routes/Deck';
 import History from './routes/History';
@@ -14,6 +15,7 @@ class MyRouter extends Component {
                 <Switch>
                     <Route exact path="/" component={Home} />
                     <Route exact path="/cards" component={Cards} />
+                    <Route exact path="/test" component={Test} />
                     <Route exact path="/my-deck" component={Deck} />
                     <Route exact path="/history" component={History} />
                     <Route component={PageNotFound} />
