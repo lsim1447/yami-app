@@ -69,13 +69,19 @@ const filterCards = (cards: ICardDetails[], type: string) => {
   }
 }
 
+const getRandomInt = (max: number) => {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
 function History() {
   const [cards, setCards] = useState<ICardDetails[]>([]);
   const [nrOfCardsToShow, setNrOfCardsToShow] = useState(102);
   const lateralBar: IListItem[] = SIDE_BAR_OPTIONS_API;
 
   useEffect(() => {
-    setCards(CardAPI.data.slice(0, nrOfCardsToShow));
+    const randomIndex = getRandomInt(9000);
+
+    setCards(CardAPI.data.slice(randomIndex, randomIndex + nrOfCardsToShow));
   }, [nrOfCardsToShow]);  
 
   return (
