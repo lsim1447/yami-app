@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card } from 'react-bootstrap';
-import { ICard } from './YuGiOhCard';
+import axios from 'axios';
 import styled from 'styled-components';
+import { CardProps, DEFAULT_CARD_VALUE, ICardDetails } from '../internal/Cards';
 
 const FlipCardInner = styled.div `
     position: relative;
@@ -46,26 +47,48 @@ const FlipCardBack = styled.div `
     transform: rotateY(180deg);
 `;
 
-const FlipCard = ({ id, image_url, title, description, note } : ICard) => 
-    <Card style={{minWidth: "290px"}}>
-        <FlipCardContainer>
-            <FlipCardInner>
-                <FlipCardFront>
-                    <Card.Img variant="top" src={ image_url } />
-                </FlipCardFront>
-                <FlipCardBack>
-                    <Card.Img variant="top" src="https://cdn11.bigcommerce.com/s-ebhaloj/images/stencil/1280x1280/products/6750/12455/KOIYGSLEEVE__99423.1567709419.jpg?c=2&imbypass=on" />
-                </FlipCardBack>
-            </FlipCardInner>
-        </FlipCardContainer>
+const getText = (text: string, limit: number) => {
+    return (text.length > 150) ? text.substring(0, limit - 3) + '...' : text; 
+}
 
-        <Card.Body>
-            <Card.Title> { title } </Card.Title>
-            <Card.Text> { description } </Card.Text>
-        </Card.Body>
-        <Card.Footer>
-            <small className="text-muted"> { note } </small>
-        </Card.Footer>
-    </Card>
+const FlipCard = ({ id, card } : CardProps) => {
+    const initialValue: ICardDetails = DEFAULT_CARD_VALUE;
+    const [cardDetails, setCardDetails] = useState(initialValue);
+
+    useEffect(() => {
+        if (id) {
+            axios.get(`https://db.ygoprodeck.com/api/v7/cardinfo.php?id=${id}`)
+            .then(response => {
+                setCardDetails(response.data.data[0]);
+            })
+        } else if (card) {
+            setCardDetails(card);
+        }
+    }, []);
+    
+
+    return (
+        <Card style={{minWidth: "290px", width: "25%", marginBottom: "24px"}}>
+            <FlipCardContainer>
+                <FlipCardInner>
+                    <FlipCardFront>
+                        <Card.Img variant="top" src={(cardDetails.card_images && cardDetails.card_images.length) ? cardDetails.card_images[0].image_url : initialValue.card_images[0].image_url} />
+                    </FlipCardFront>
+                    <FlipCardBack>
+                        <Card.Img variant="top" src="https://cdn11.bigcommerce.com/s-ebhaloj/images/stencil/1280x1280/products/6750/12455/KOIYGSLEEVE__99423.1567709419.jpg?c=2&imbypass=on" />
+                    </FlipCardBack>
+                </FlipCardInner>
+            </FlipCardContainer>
+
+            <Card.Body>
+                <Card.Title> {getText(cardDetails.name, 150)} </Card.Title>
+                <Card.Text> {getText(cardDetails.desc, 150)} </Card.Text>
+            </Card.Body>
+            <Card.Footer>
+                <small className="text-muted"> Price on Amazon: {(cardDetails.card_prices && cardDetails.card_prices.length) ? cardDetails.card_prices[0].amazon_price : initialValue.card_prices[0].amazon_price} $ </small>
+            </Card.Footer>
+        </Card>
+    );
+}
 
 export default FlipCard;

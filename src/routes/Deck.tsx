@@ -1,121 +1,141 @@
-import React from 'react';
-import { Col, Row, Nav, Tab } from 'react-bootstrap';
-import { ICard } from './../components/external/YuGiOhCard';
-import CardMap from './../components/external/CardMap';
+import React, { useState, useEffect } from 'react';
+import { CardDeck, Col, Row, Nav, Tab } from 'react-bootstrap';
 import styled from 'styled-components';
-import { cards } from './../FakeApi';
+import CardAPI from '../CardAPI.json';
+import { SIDE_BAR_OPTIONS_API } from '../constants';
+import { ICardDetails } from '../components/internal/Cards';
+import FlipCard from '../components/external/FlipCard';
 
 export interface IListItem
 {
-    eventKey: string,
-    text: string,
-    type: string
+  eventKey: string,
+  type: string
+}
+
+const hidden_sidebar = () => {
+  const sideBarElement = document.getElementById("mySidebar");
+  if (sideBarElement) {
+    sideBarElement.style.display = "none";
+  }
+}
+
+const show_sidebar = () => {
+  const sideBarElement = document.getElementById("mySidebar");
+  if (sideBarElement) {
+    sideBarElement.style.display = "block";
+  }
 }
 
 const ListItem = styled.div `
-  border: 3px solid #ffffff;
-  background-color: #000000;
-  color: #FFFFFF;
-  font-size: 18px;
+  border-top: 2px solid #343a40;
+  border-bottom: 2px solid #343a40;
+  color: #ffffff;
   font-weight: bold;
-  padding-top: 36px;
-  padding-bottom: 36px;
-  padding-left: 24px;
-  padding-right: 24px;
-  text-align: center;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  
   &:hover {
-    background-color: red;
-    border: 3px solid red;
-    color: black;
+    color: #05f29b;
+    border-top: 2px solid #ffffff;
+    border-bottom: 2px solid #ffffff;
   }
 `;
 
-const NavContainer = styled.div `
-  @media (min-width: 768px) {
-    position: fixed;
-    background-color: "#343a40"
-    color: white;
-  }
+const SideBarContainer = styled.div `
+  background-color: #343a40;
+  display: block;
+  width: 16.66%;
+  min-width: 200px;
 `;
 
-const filterCards = (cards: ICard[], type: string) => {
-  if (type === "all") return cards;
-  return cards.filter(card => card.type === type);
+const SideBarHeaderText = styled.strong `
+  text-align: center;
+`;
+
+const SideBarCloseIcon = styled.div `
+  float: right;
+`;
+
+const SandwichBtnContainer = styled.div `
+  color: white;
+  position: fixed;
+`;
+
+const filterCards = (cards: ICardDetails[], type: string) => {
+  if (type === 'All') {
+    return cards;
+  } else {
+    return cards.filter(card => card.type === type);
+  }
 }
 
-function Deck() {
-  let lateralBar: IListItem[] = [];
-  let all_cards = cards;
+function History() {
+  const [cards, setCards] = useState<ICardDetails[]>([]);
+  const [nrOfCardsToShow, setNrOfCardsToShow] = useState(102);
+  const lateralBar: IListItem[] = SIDE_BAR_OPTIONS_API;
 
-  lateralBar = [
-    {
-      eventKey: "all_card",
-      text: "All Card",
-      type: "all"
-    },
-    {
-      eventKey: "exodia_pieces",
-      text: "Exodia Pieces",
-      type: "exodia"
-    },
-    {
-      eventKey: "trap_cards",
-      text: "Trap Cards",
-      type: "trap"
-    },
-    {
-      eventKey: "magic_cards",
-      text: "Magic Cards",
-      type: "magic"
-    },
-    {
-      eventKey: "monster_cards",
-      text: "Monster Cards",
-      type: "monster"
-    },
-    {
-      eventKey: "spell_card",
-      text: "Spell Cards",
-      type: "spell"
-    },
-  ]
+  useEffect(() => {
+    setCards(CardAPI.data.slice(0, nrOfCardsToShow));
+  }, [nrOfCardsToShow]);  
 
   return (
-    <Tab.Container id="left-tabs-example" defaultActiveKey="first">
-      <Row style={{backgroundImage: `url(deck_background_image_1.jpg)`}}>
-        <Col style={{ minHeight: "100vh", marginTop: "50px" }} sm={2}>
-          <NavContainer>
-            <Nav  variant="pills" className="flex-column">
+    <div>
+      <Tab.Container id="left-tabs-example" defaultActiveKey="first">
+        <Row style={{backgroundImage: `url(deck_background_image_1.jpg)`}}>
+          <Col sm={2} style={{ minHeight: "100vh"}}>
+            <SideBarContainer className="w3-sidebar w3-bar-block w3-border-right" id="mySidebar">
+              <button onClick={() => hidden_sidebar()} className="w3-bar-item w3-large">
+                <SideBarHeaderText> SideBar - Menu </SideBarHeaderText>
+                <SideBarCloseIcon>&times;</SideBarCloseIcon>
+              </button>
+              <Nav variant="pills" className="flex-column">
               {
                 lateralBar.map(item => {
                   return(
                     <Nav.Item>
                       <Nav.Link eventKey={item.eventKey}>
                         <ListItem>
-                          { item.text } 
+                          { item.type } 
                         </ListItem>
                       </Nav.Link>
                     </Nav.Item>
                   )
                 })
               }
-            </Nav>
-          </NavContainer>
-        </Col>
-        <Col>
-          <Tab.Content>
+              </Nav>
+            </SideBarContainer>
+
+            <SandwichBtnContainer>
+              <button className="w3-button w3-xlarge" onClick={(e) => show_sidebar()}>☰</button>
+            </SandwichBtnContainer>
+          </Col>
+          <Col>
+            <Tab.Content>
             {
               lateralBar.map(item => 
-                <Tab.Pane eventKey={ item.eventKey }>
-                  <CardMap cards={ filterCards(all_cards, item.type) }/>
+                <Tab.Pane eventKey={item.eventKey}>
+                  <CardDeck style={{backgroundColor: "#212529"}}>
+                    {
+                      filterCards(cards, item.type).map(
+                        card => {
+                            return (
+                                <FlipCard 
+                                    card={card}
+                                    key={card.id}
+                                />
+                            );
+                        })
+                    }
+                  </CardDeck>
                 </Tab.Pane>
               )
             }
-          </Tab.Content>
-        </Col>
-      </Row>
-    </Tab.Container>
+            </Tab.Content>
+          </Col>
+        </Row>
+      </Tab.Container>
+    </div>
   );
 }
 
-export default Deck;
+export default History;

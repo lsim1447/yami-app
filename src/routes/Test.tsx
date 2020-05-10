@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import CardDetails from './../components/external/CardDetails';
+import YuGiOhCard from '../components/external/YuGiOhCard';
 
 function Test() {
   return (
     <>
-      <CardDetails id={1861629}/>
+      <YuGiOhCard id={1861629}/>
     </>
   );
 }

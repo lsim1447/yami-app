@@ -1,5 +1,4 @@
 import React from 'react';
-import { Carousel } from 'react-bootstrap';
 import styled from 'styled-components';
 
 const HomePageContainer = styled.div `
@@ -12,9 +11,7 @@ const HomePageContainer = styled.div `
 
 function Home() {
   return (
-    <HomePageContainer>
-      
-    </HomePageContainer>
+    <HomePageContainer />
   );
 }
 
