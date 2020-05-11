@@ -80,7 +80,6 @@ function History() {
 
   useEffect(() => {
     const randomIndex = getRandomInt(9000);
-
     setCards(CardAPI.data.slice(randomIndex, randomIndex + nrOfCardsToShow));
   }, [nrOfCardsToShow]);  
 
@@ -127,6 +126,7 @@ function History() {
                             return (
                                 <FlipCard 
                                     card={card}
+                                    isFullDescriptionVisible={false}
                                     key={card.id}
                                 />
                             );

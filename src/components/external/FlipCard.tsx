@@ -3,6 +3,7 @@ import { Card } from 'react-bootstrap';
 import axios from 'axios';
 import styled from 'styled-components';
 import { CardProps, DEFAULT_CARD_VALUE, ICardDetails } from '../internal/Cards';
+import CardModal from '../internal/CardModal';
 
 const FlipCardInner = styled.div `
     position: relative;
@@ -47,13 +48,17 @@ const FlipCardBack = styled.div `
     transform: rotateY(180deg);
 `;
 
-const getText = (text: string, limit: number) => {
+const getText = (text: string, limit: number, isFullDescriptionVisible: boolean) => {
+    if (isFullDescriptionVisible) return text;
+
     return (text.length > 150) ? text.substring(0, limit - 3) + '...' : text; 
 }
 
-const FlipCard = ({ id, card } : CardProps) => {
+const FlipCard = ({ id, isFullDescriptionVisible, card } : CardProps) => {
     const initialValue: ICardDetails = DEFAULT_CARD_VALUE;
     const [cardDetails, setCardDetails] = useState(initialValue);
+    
+    const [show, setShow] = useState(false);
 
     useEffect(() => {
         if (id) {
@@ -68,7 +73,7 @@ const FlipCard = ({ id, card } : CardProps) => {
     
 
     return (
-        <Card style={{minWidth: "290px", width: "25%", marginBottom: "24px"}}>
+        <Card style={{minWidth: "290px", width: "25%", marginBottom: "24px"}} onClick={() => setShow(true)}>
             <FlipCardContainer>
                 <FlipCardInner>
                     <FlipCardFront>
@@ -81,12 +86,17 @@ const FlipCard = ({ id, card } : CardProps) => {
             </FlipCardContainer>
 
             <Card.Body>
-                <Card.Title> {getText(cardDetails.name, 150)} </Card.Title>
-                <Card.Text> {getText(cardDetails.desc, 150)} </Card.Text>
+                <Card.Title> {getText(cardDetails.name, 150, false)} </Card.Title>
+                <Card.Text> {getText(cardDetails.desc, 150, false)} </Card.Text>
             </Card.Body>
             <Card.Footer>
                 <small className="text-muted"> Price on Amazon: {(cardDetails.card_prices && cardDetails.card_prices.length) ? cardDetails.card_prices[0].amazon_price : initialValue.card_prices[0].amazon_price} $ </small>
             </Card.Footer>
+            <CardModal
+                card={card}
+                show={show}
+                setShow={setShow}
+            />
         </Card>
     );
 }

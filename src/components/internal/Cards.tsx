@@ -39,6 +39,7 @@ export interface ICardDetails
 
 export type CardProps = {
     id?: number;
+    isFullDescriptionVisible: boolean,
     card?: ICardDetails
 }
 

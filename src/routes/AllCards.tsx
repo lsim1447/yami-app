@@ -25,20 +25,23 @@ function AllCards() {
     */
 
     return (
-        <CardDeck style={{backgroundColor: "#212529"}}>
-            {
-                localCards.map(
-                    card => {
-                        return (
-                            <FlipCard 
-                                //id={card.id}
-                                card={card}
-                                key={card.id}
-                            />
-                        );
-                })
-            }
-        </CardDeck>
+        <>
+            <CardDeck style={{backgroundColor: "#212529"}}>
+                {
+                    localCards.map(
+                        card => {
+                            return (
+                                <FlipCard 
+                                    //id={card.id}
+                                    isFullDescriptionVisible={false}
+                                    card={card}
+                                    key={card.id}
+                                />
+                            );
+                    })
+                }
+            </CardDeck>
+        </>
     );
 }
 

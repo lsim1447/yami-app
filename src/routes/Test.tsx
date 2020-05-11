@@ -5,7 +5,10 @@ import YuGiOhCard from '../components/external/YuGiOhCard';
 function Test() {
   return (
     <>
-      <YuGiOhCard id={1861629}/>
+      <YuGiOhCard 
+        id={1861629}
+        isFullDescriptionVisible={false}
+      />
     </>
   );
 }
