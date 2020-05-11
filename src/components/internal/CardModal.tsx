@@ -7,14 +7,18 @@ import styled from 'styled-components';
 type CartModalProps = {
     card?: ICardDetails,
     show: boolean,
-    setShow: any
+    onHide: any
 }
 
-const CardModal = ({ card, show, setShow }: CartModalProps) => {
-  
+function CardModal(props: CartModalProps) {
+  const {
+    card,
+    show,
+    onHide
+  } = props;
 
   return (
-    <Modal show={show} onHide={() => setShow(false)}>
+    <Modal animation={true} show={show} onHide={onHide}>
       <Modal.Header closeButton>
         <Modal.Title> {card ? card.name : ''} </Modal.Title>
       </Modal.Header>
@@ -25,7 +29,7 @@ const CardModal = ({ card, show, setShow }: CartModalProps) => {
         />
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={() => setShow(false)}>
+        <Button variant="secondary" onClick={onHide}>
           Close
         </Button>
       </Modal.Footer>

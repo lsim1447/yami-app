@@ -17,9 +17,16 @@ const FlipCardInner = styled.div `
 
 const FlipCardContainer = styled.div `
     background-color: #eee9e5;
+    perspective: 1000px;
     width: 290px;
     height: 420px;
-    perspective: 1000px;
+
+    @media (max-width: 420px) {
+        width: 100%;
+        max-height: 600px;
+        height: 600px;
+    }
+
     &:hover {
         ${FlipCardInner} {
             transform: rotateY(180deg);
@@ -48,6 +55,13 @@ const FlipCardBack = styled.div `
     transform: rotateY(180deg);
 `;
 
+const PriceContainer = styled.p `
+  padding-top: 12px;
+  text-align: center;
+  font-size: 14px;
+  font-style: italic;
+`;
+
 const getText = (text: string, limit: number, isFullDescriptionVisible: boolean) => {
     if (isFullDescriptionVisible) return text;
 
@@ -57,8 +71,7 @@ const getText = (text: string, limit: number, isFullDescriptionVisible: boolean)
 const FlipCard = ({ id, isFullDescriptionVisible, card } : CardProps) => {
     const initialValue: ICardDetails = DEFAULT_CARD_VALUE;
     const [cardDetails, setCardDetails] = useState(initialValue);
-    
-    const [show, setShow] = useState(false);
+    const [modalShow, setModalShow] = useState(false);
 
     useEffect(() => {
         if (id) {
@@ -73,31 +86,34 @@ const FlipCard = ({ id, isFullDescriptionVisible, card } : CardProps) => {
     
 
     return (
-        <Card style={{minWidth: "290px", width: "25%", marginBottom: "24px"}} onClick={() => setShow(true)}>
-            <FlipCardContainer>
-                <FlipCardInner>
-                    <FlipCardFront>
-                        <Card.Img variant="top" src={(cardDetails.card_images && cardDetails.card_images.length) ? cardDetails.card_images[0].image_url : initialValue.card_images[0].image_url} />
-                    </FlipCardFront>
-                    <FlipCardBack>
-                        <Card.Img variant="top" src="https://cdn11.bigcommerce.com/s-ebhaloj/images/stencil/1280x1280/products/6750/12455/KOIYGSLEEVE__99423.1567709419.jpg?c=2&imbypass=on" />
-                    </FlipCardBack>
-                </FlipCardInner>
-            </FlipCardContainer>
+        <>
+            <Card style={{minWidth: "290px", marginBottom: "24px"}} onClick={() => setModalShow(true)}>
+                <FlipCardContainer>
+                    <FlipCardInner>
+                        <FlipCardFront>
+                            <Card.Img variant="top" src={(cardDetails.card_images && cardDetails.card_images.length) ? cardDetails.card_images[0].image_url : initialValue.card_images[0].image_url} />
+                        </FlipCardFront>
+                        <FlipCardBack>
+                            <Card.Img variant="top" src="https://cdn11.bigcommerce.com/s-ebhaloj/images/stencil/1280x1280/products/6750/12455/KOIYGSLEEVE__99423.1567709419.jpg?c=2&imbypass=on" />
+                        </FlipCardBack>
+                    </FlipCardInner>
+                </FlipCardContainer>
 
-            <Card.Body>
-                <Card.Title> {getText(cardDetails.name, 150, false)} </Card.Title>
-                <Card.Text> {getText(cardDetails.desc, 150, false)} </Card.Text>
-            </Card.Body>
-            <Card.Footer>
-                <small className="text-muted"> Price on Amazon: {(cardDetails.card_prices && cardDetails.card_prices.length) ? cardDetails.card_prices[0].amazon_price : initialValue.card_prices[0].amazon_price} $ </small>
-            </Card.Footer>
+                <Card.Body>
+                    <Card.Title> {getText(cardDetails.name, 150, isFullDescriptionVisible)} </Card.Title>
+                    <Card.Text> {getText(cardDetails.desc, 150, isFullDescriptionVisible)} </Card.Text>
+                </Card.Body>
+                <Card.Footer>
+                    <PriceContainer className="text-muted"> Price on Amazon: {(cardDetails.card_prices && cardDetails.card_prices.length) ? cardDetails.card_prices[0].amazon_price : initialValue.card_prices[0].amazon_price} $ </PriceContainer>
+                </Card.Footer>
+                
+            </Card>
             <CardModal
                 card={card}
-                show={show}
-                setShow={setShow}
+                show={modalShow}
+                onHide={() => setModalShow(false)}
             />
-        </Card>
+        </>
     );
 }
 
