@@ -58,3 +58,16 @@ export const DEFAULT_CARD_VALUE: ICardDetails = {
     race: '',
     type: ''
 }
+
+export const initCards = (nrOfCardsToShow: number) => {
+    const initialCards: ICardDetails[] = [];
+    for (let index = 0; index < nrOfCardsToShow; index++) {
+        initialCards.push(DEFAULT_CARD_VALUE);
+    }
+    
+    return initialCards;
+}
+
+export const getRandomInt = (max: number) => {
+    return Math.floor(Math.random() * Math.floor(max));
+}

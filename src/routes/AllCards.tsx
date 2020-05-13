@@ -1,35 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { CardDeck } from 'react-bootstrap';
-import FlipCard from '../components/external/FlipCard';
+import axios from 'axios';
 import { ICardDetails } from '../components/internal/Cards';
-import CardAPI from './../CardAPI.json';
-
-const getRandomInt = (max: number) => {
-    return Math.floor(Math.random() * Math.floor(max));
-}
+import FlipCard from '../components/external/FlipCard';
+import { getRandomInt, initCards } from '../components/internal/Cards';
 
 function AllCards() {
-    const [cards, setCards] = useState<ICardDetails[]>([]);
-    const [nrOfCardsToShow, setNrOfCardsToShow] = useState(200);
+    const [nrOfCardsToShow, setNrOfCardsToShow] = useState(80);
+    const [cards, setCards] = useState<ICardDetails[]>(initCards(nrOfCardsToShow));
     const randomIndex = getRandomInt(9000);
-    const localCards: ICardDetails[] = CardAPI.data.slice(randomIndex, randomIndex + nrOfCardsToShow);
     
-    /*
     useEffect(() => {
-        axios.get(`https://db.ygoprodeck.com/api/v7/cardinfo.php?archetype=Blue-Eyes`)
+        axios.get(`http://localhost:5000/cards`)
             .then(response => {
-                console.log(response.data.data);
-                setCards(response.data.data.slice(0, nrOfCardsToShow));
+                setCards([]);
+                setCards(response.data.slice(randomIndex, randomIndex + nrOfCardsToShow));
             })
     }, [nrOfCardsToShow]);
-    */
 
     return (
         <>
             <CardDeck style={{backgroundColor: "#212529"}}>
                 {
-                    localCards.map(
-                        card => {
+                    cards.map(
+                        (card: ICardDetails) => {
                             return (
                                 <FlipCard 
                                     //id={card.id}

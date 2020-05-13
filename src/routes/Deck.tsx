@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { CardDeck, Col, Row, Nav, Tab } from 'react-bootstrap';
+import axios from 'axios';
 import styled from 'styled-components';
-import CardAPI from '../CardAPI.json';
 import { SIDE_BAR_OPTIONS_API } from '../constants';
 import { ICardDetails } from '../components/internal/Cards';
 import FlipCard from '../components/external/FlipCard';
+import { getRandomInt, initCards } from '../components/internal/Cards';
 
 export interface IListItem
 {
@@ -69,19 +70,19 @@ const filterCards = (cards: ICardDetails[], type: string) => {
   }
 }
 
-const getRandomInt = (max: number) => {
-  return Math.floor(Math.random() * Math.floor(max));
-}
-
 function History() {
-  const [cards, setCards] = useState<ICardDetails[]>([]);
-  const [nrOfCardsToShow, setNrOfCardsToShow] = useState(102);
+  const [nrOfCardsToShow, setNrOfCardsToShow] = useState(200);
+  const [cards, setCards] = useState<ICardDetails[]>(initCards(nrOfCardsToShow));
   const lateralBar: IListItem[] = SIDE_BAR_OPTIONS_API;
+  const randomIndex = getRandomInt(9000);
 
   useEffect(() => {
-    const randomIndex = getRandomInt(9000);
-    setCards(CardAPI.data.slice(randomIndex, randomIndex + nrOfCardsToShow));
-  }, [nrOfCardsToShow]);  
+    axios.get(`http://localhost:5000/cards`)
+        .then(response => {
+            setCards([]);
+            setCards(response.data.slice(randomIndex, randomIndex + nrOfCardsToShow));
+        })
+    }, [nrOfCardsToShow]);  
 
   return (
     <div>
