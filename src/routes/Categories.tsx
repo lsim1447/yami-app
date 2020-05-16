@@ -70,17 +70,24 @@ const filterCards = (cards: ICardDetails[], type: string) => {
   }
 }
 
-function History() {
+function Categories() {
   const [nrOfCardsToShow, setNrOfCardsToShow] = useState(200);
-  const [cards, setCards] = useState<ICardDetails[]>(initCards(nrOfCardsToShow));
+  const [cards, setCards] = useState<ICardDetails[]>([]);
   const lateralBar: IListItem[] = SIDE_BAR_OPTIONS_API;
-  const randomIndex = getRandomInt(9000);
+
+  const filerCardsByType = (type: string) => {
+    console.log('TYPE = ', type);
+  }
+
+  useEffect(() => {
+    setCards(initCards(nrOfCardsToShow));
+  }, []);
 
   useEffect(() => {
     axios.get(`http://localhost:5000/cards`)
         .then(response => {
             setCards([]);
-            setCards(response.data.slice(randomIndex, randomIndex + nrOfCardsToShow));
+            setCards(response.data);
         })
     }, [nrOfCardsToShow]);  
 
@@ -97,9 +104,9 @@ function History() {
               <Nav variant="pills" className="flex-column">
               {
                 lateralBar.map(item => {
-                  return(
-                    <Nav.Item>
-                      <Nav.Link eventKey={item.eventKey}>
+                  return (
+                    <Nav.Item key={item.eventKey}>
+                      <Nav.Link eventKey={item.eventKey} onSelect={() => filerCardsByType(item.type)}>
                         <ListItem>
                           { item.type } 
                         </ListItem>
@@ -119,8 +126,8 @@ function History() {
             <Tab.Content>
             {
               lateralBar.map(item => 
-                <Tab.Pane eventKey={item.eventKey}>
-                  <CardDeck style={{backgroundColor: "#212529"}}>
+                <Tab.Pane eventKey={item.eventKey} key={item.eventKey}>
+                  <CardDeck style={{backgroundColor: "#212529"}} key={item.type}>
                     {
                       filterCards(cards, item.type).map(
                         card => {
@@ -145,4 +152,4 @@ function History() {
   );
 }
 
-export default History;
+export default Categories;

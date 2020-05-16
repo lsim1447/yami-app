@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Card, Carousel, Modal, Tabs, Tab } from 'react-bootstrap';
-import { ICardDetails } from '../internal/Cards';
-import YuGiOhCard from '../external/YuGiOhCard';
-import { MAX_NUMBER_OF_SIMILAR_CARDS } from '../../constants';
+import axios from 'axios';
 import styled from 'styled-components';
-import CardAPI from '../../CardAPI.json';
+import { ICardDetails } from '../internal/Cards';
+import YuGiOhCard from './YuGiOhCard';
+import { MAX_NUMBER_OF_SIMILAR_CARDS } from '../../constants';
+import { getRandomInt, initCards } from '../internal/Cards';
 
 const PriceContainer = styled.p `
   padding-top: 12px;
@@ -14,38 +15,34 @@ const PriceContainer = styled.p `
 `;
 
 type CartModalProps = {
-    card?: ICardDetails,
-    show: boolean,
-    onHide: any
-}
-
-const getRandomInt = (max: number) => {
-  return Math.floor(Math.random() * Math.floor(max));
-}
-
-const getSimilarCards = (card?: ICardDetails) => {
-  if (!card) return [];
-
-  const randomIndex = getRandomInt(2000);
-  const localCards: ICardDetails[] = CardAPI.data.slice(randomIndex, CardAPI.data.length);
-  const similarCards = [];
-
-  for (let index = 0; index < localCards.length; index++) {
-    if (localCards[index].type === card.type && localCards[index].race === card.race) {
-      similarCards.push(localCards[index]);
-      if (similarCards.length === MAX_NUMBER_OF_SIMILAR_CARDS) return similarCards;
-    }
-  }
-  
-  return similarCards;
+  addToDeckDisabled?: boolean,
+  card?: ICardDetails,
+  onHide: any,
+  show: boolean,
 }
 
 function CardModal(props: CartModalProps) {
   const {
+    addToDeckDisabled,
     card,
-    show,
-    onHide
+    onHide,
+    show
   } = props;
+
+  const [similarCards, setSimilarCards] = useState<ICardDetails[]>(initCards(MAX_NUMBER_OF_SIMILAR_CARDS));
+
+  useEffect(() => {
+    if (show) {
+      axios.post(`http://localhost:5000/cards/findByTypeAndRace`, {
+        "type": (card ? card.type : ''),
+        "race": (card ? card.race : ''),
+        "limit": MAX_NUMBER_OF_SIMILAR_CARDS
+      }).then(response => {
+          setSimilarCards([]);
+          setSimilarCards(response.data);
+      })
+    }
+  }, [show]);  
 
   return (
     <Modal animation={true} show={show} onHide={onHide}>
@@ -63,7 +60,7 @@ function CardModal(props: CartModalProps) {
         <Tab eventKey="similar_cards" title="Similar Cards">
           <Carousel interval={1000}>
             {
-              getSimilarCards(card).map(c => {
+              similarCards.map(c => {
                 return (
                   <Carousel.Item key={c.id}>
                     <img 
@@ -74,7 +71,7 @@ function CardModal(props: CartModalProps) {
                     />
                     <Card.Footer>
                       <PriceContainer>
-                        Price on Amazon: {c.card_prices[0].amazon_price} $
+                        Price on Amazon: {(c && c.card_prices && c.card_prices[0]) ? c.card_prices[0].amazon_price : ''} $
                       </PriceContainer>
                     </Card.Footer>
                   </Carousel.Item>
@@ -86,8 +83,12 @@ function CardModal(props: CartModalProps) {
       </Tabs>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={onHide}>
-          Close
+        <Button
+          style={{width: "100%"}} 
+          disabled={addToDeckDisabled ? addToDeckDisabled : false}
+          variant="dark"
+        >
+          {addToDeckDisabled ? 'ADDED TO YOUR DECK' : 'ADD TO MY DECK'} 
         </Button>
       </Modal.Footer>
     </Modal>

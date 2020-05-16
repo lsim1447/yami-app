@@ -29,7 +29,6 @@ const YuGiOhCard = ({ id, card } : CardProps) => {
   return (
       <Card>
         <Card.Img style={{maxHeight: "600px"}} variant="top" src={(cardDetails.card_images && cardDetails.card_images.length) ? cardDetails.card_images[0].image_url : initialValue.card_images[0].image_url} />
-    
         <Card.Footer>
           <PriceContainer>
             Price on Amazon: {(cardDetails.card_prices && cardDetails.card_prices.length) ? cardDetails.card_prices[0].amazon_price : initialValue.card_prices[0].amazon_price} $

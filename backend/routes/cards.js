@@ -2,7 +2,7 @@ const router = require('express').Router();
 let Card = require('../models/card.model');
 
 router.route('/').get((request, response) => {
-    Card.find()
+    Card.find({}, null, { limit: 300 })
         .then(cards => response.json(cards))
         .catch(error => response.status(400).json('Error: ' + error));
 });
@@ -77,6 +77,46 @@ router.route('/update/:id').post((request, response) => {
                 .catch((error) => response.status(400).json('Error: ' + error));
         })
         .catch(error => response.status(400).json('Error: ' + error));
+});
+
+router.route('/findByType').post((request, response) => {
+    const cardType = request.body.type;
+    const limit = request.body.limit;
+    
+    Card.find({type: cardType}, function(error, cards) {
+        if (error) {
+            response.send('Error: ' + error);
+        }    
+        
+        response.json(cards);
+    }, { limit: limit });
+});
+
+router.route('/findByRace').post((request, response) => {
+    const cardRace = request.body.type;
+    const limit = request.body.limit;
+    
+    Card.find({race: cardRace}, function(error, cards) {
+        if (error) {
+            response.send('Error: ' + error);
+        }    
+        
+        response.json(cards);
+    }, { limit: limit });
+});
+
+router.route('/findByTypeAndRace').post((request, response) => {
+    const cardType = request.body.type;
+    const cardRace = request.body.race;
+    const limit = request.body.limit;
+    
+    Card.find({type: cardType, race: cardRace}, function(error, cards) {
+        if (error) {
+            response.send('Error: ' + error);
+        }    
+        
+        response.json(cards);
+    }, { limit: limit });
 });
 
 module.exports = router;

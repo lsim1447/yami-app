@@ -8,13 +8,12 @@ import { getRandomInt, initCards } from '../components/internal/Cards';
 function AllCards() {
     const [nrOfCardsToShow, setNrOfCardsToShow] = useState(80);
     const [cards, setCards] = useState<ICardDetails[]>(initCards(nrOfCardsToShow));
-    const randomIndex = getRandomInt(9000);
     
     useEffect(() => {
         axios.get(`http://localhost:5000/cards`)
             .then(response => {
                 setCards([]);
-                setCards(response.data.slice(randomIndex, randomIndex + nrOfCardsToShow));
+                setCards(response.data);
             })
     }, [nrOfCardsToShow]);
 

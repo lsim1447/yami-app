@@ -16,7 +16,7 @@ const userSchema = new Schema({
         unique: false,
         trim: true,
         minlength: 3
-    }
+    },
 }, {
     timestamps: true,
 });
