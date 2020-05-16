@@ -4,74 +4,24 @@ import axios from 'axios';
 import styled from 'styled-components';
 import { CardProps, DEFAULT_CARD_VALUE, ICardDetails } from '../internal/Cards';
 import CardModal from './CardModal';
-
-const FlipCardInner = styled.div `
-    position: relative;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    transition: transform 0.6s;
-    transform-style: preserve-3d;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-`;
-
-const FlipCardContainer = styled.div `
-    background-color: #eee9e5;
-    perspective: 1000px;
-    width: 290px;
-    height: 420px;
-
-    @media (max-width: 420px) {
-        width: 100%;
-        max-height: 600px;
-        height: 600px;
-    }
-
-    &:hover {
-        ${FlipCardInner} {
-            transform: rotateY(180deg);
-        }
-    }
-`;
-
-const FlipCardFront = styled.div `
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    background-color: #bbb;
-    color: black;
-`;
-
-const FlipCardBack = styled.div `
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    background-color: #2980b9;
-    color: white;
-    transform: rotateY(180deg);
-`;
+import { FlipCardInner, FlipCardContainer, FlipCardFront, FlipCardBack } from '../internal/FlipComponents';
 
 const PriceContainer = styled.p `
-  padding-top: 12px;
-  text-align: center;
-  font-size: 14px;
-  font-style: italic;
+    padding-top: 12px;
+    text-align: center;
+    font-size: 14px;
+    font-style: italic;
 `;
-
-const getText = (text: string, limit: number, isFullDescriptionVisible: boolean) => {
-    if (isFullDescriptionVisible) return text;
-
-    return (text.length > 150) ? text.substring(0, limit - 3) + '...' : text; 
-}
 
 const FlipCard = ({ id, isFullDescriptionVisible, card } : CardProps) => {
     const initialValue: ICardDetails = DEFAULT_CARD_VALUE;
     const [cardDetails, setCardDetails] = useState(initialValue);
     const [modalShow, setModalShow] = useState(false);
+
+    const getText = (text: string, limit: number, isFullDescriptionVisible: boolean) => {
+        if (isFullDescriptionVisible) return text;
+        return (text.length > 150) ? text.substring(0, limit - 3) + '...' : text; 
+    }
 
     useEffect(() => {
         if (id) {
@@ -88,7 +38,11 @@ const FlipCard = ({ id, isFullDescriptionVisible, card } : CardProps) => {
     return (
         <>
             <Card style={{minWidth: "290px", marginBottom: "24px"}} onClick={() => setModalShow(true)}>
-                <FlipCardContainer>
+                <FlipCardContainer theme={
+                    {
+                        backgroundColor: "#eee9e5",
+                    }
+                }>
                     <FlipCardInner>
                         <FlipCardFront>
                             <Card.Img variant="top" src={(cardDetails.card_images && cardDetails.card_images.length) ? cardDetails.card_images[0].image_url : initialValue.card_images[0].image_url} />

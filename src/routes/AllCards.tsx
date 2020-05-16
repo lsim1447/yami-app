@@ -3,7 +3,7 @@ import { CardDeck } from 'react-bootstrap';
 import axios from 'axios';
 import { ICardDetails } from '../components/internal/Cards';
 import FlipCard from '../components/external/FlipCard';
-import { getRandomInt, initCards } from '../components/internal/Cards';
+import { initCards } from '../components/internal/Cards';
 
 function AllCards() {
     const [nrOfCardsToShow, setNrOfCardsToShow] = useState(80);

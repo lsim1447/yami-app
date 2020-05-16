@@ -1,66 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { CardDeck, Col, Row, Nav, Tab } from 'react-bootstrap';
 import axios from 'axios';
-import styled from 'styled-components';
 import { SIDE_BAR_OPTIONS_API } from '../constants';
 import { ICardDetails } from '../components/internal/Cards';
 import FlipCard from '../components/external/FlipCard';
-import { getRandomInt, initCards } from '../components/internal/Cards';
-
-export interface IListItem
-{
-  eventKey: string,
-  type: string
-}
-
-const hidden_sidebar = () => {
-  const sideBarElement = document.getElementById("mySidebar");
-  if (sideBarElement) {
-    sideBarElement.style.display = "none";
-  }
-}
-
-const show_sidebar = () => {
-  const sideBarElement = document.getElementById("mySidebar");
-  if (sideBarElement) {
-    sideBarElement.style.display = "block";
-  }
-}
-
-const ListItem = styled.div `
-  border-top: 2px solid #343a40;
-  border-bottom: 2px solid #343a40;
-  color: #ffffff;
-  font-weight: bold;
-  padding-top: 12px;
-  padding-bottom: 12px;
-  
-  &:hover {
-    color: #05f29b;
-    border-top: 2px solid #ffffff;
-    border-bottom: 2px solid #ffffff;
-  }
-`;
-
-const SideBarContainer = styled.div `
-  background-color: #343a40;
-  display: block;
-  width: 16.66%;
-  min-width: 200px;
-`;
-
-const SideBarHeaderText = styled.strong `
-  text-align: center;
-`;
-
-const SideBarCloseIcon = styled.div `
-  float: right;
-`;
-
-const SandwichBtnContainer = styled.div `
-  color: white;
-  position: fixed;
-`;
+import { initCards } from '../components/internal/Cards';
+import { BackgroundContainer } from '../components/internal/CommonContainers';
+import { IListItem, ListItem, SandwichBtnContainer, SideBarCloseIcon, SideBarContainer, SideBarHeaderText, hidden_sidebar, show_sidebar} from '../components/internal/SideBarComponents';
 
 const filterCards = (cards: ICardDetails[], type: string) => {
   if (type === 'All') {
@@ -92,9 +38,13 @@ function Categories() {
     }, [nrOfCardsToShow]);  
 
   return (
-    <div>
+    <BackgroundContainer theme={
+      {
+        backgroundImage: "deck_background_image_1.jpg"
+      }
+    }>
       <Tab.Container id="left-tabs-example" defaultActiveKey="first">
-        <Row style={{backgroundImage: `url(deck_background_image_1.jpg)`}}>
+        <Row  >
           <Col sm={2} style={{ minHeight: "100vh"}}>
             <SideBarContainer className="w3-sidebar w3-bar-block w3-border-right" id="mySidebar">
               <button onClick={() => hidden_sidebar()} className="w3-bar-item w3-large">
@@ -148,7 +98,7 @@ function Categories() {
           </Col>
         </Row>
       </Tab.Container>
-    </div>
+    </BackgroundContainer>
   );
 }
 

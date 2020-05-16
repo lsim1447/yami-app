@@ -1,27 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import styled from 'styled-components';
 import { Button, CardDeck, Collapse, Col, Row, Table } from 'react-bootstrap';
 
 import { ICardDetails } from '../components/internal/Cards';
 import SimpleFlipCard from '../components/external/SimpleFlipCard';
 import { initCards } from '../components/internal/Cards';
+import { BackgroundContainer } from '../components/internal/CommonContainers';
 import { SIDE_BAR_OPTIONS_API } from '../constants';
-
-const MyDeckContainer = styled.div `
-  min-height: 850px;
-  background: url(test4.jpg) no-repeat top center fixed; 
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-`;
 
 function MyDeck() {
   const [nrOfCardsToShow, setNrOfCardsToShow] = useState(80);
   const [allCards, setAllCards] = useState<ICardDetails[]>(initCards(nrOfCardsToShow));
   const [cards, setCards] = useState<ICardDetails[]>(initCards(nrOfCardsToShow));
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   const getNrOfCardsByType = (type: string) => {
     if (!allCards) return 0;
@@ -56,7 +47,11 @@ function MyDeck() {
   }, [open]);
 
   return (
-    <MyDeckContainer>
+    <BackgroundContainer theme={
+      {
+        backgroundImage: "my-deck-background.jpg"
+      }
+    }>
       <Row>
         <Col sm={3}>
           <Button
@@ -71,17 +66,17 @@ function MyDeck() {
             <Table striped bordered hover variant="dark">
                 <thead>
                   <tr>
-                    <th><p style={{top: "5px", position: "relative", textAlign: "center"}}> Card Type </p></th>
-                    <th style={{textAlign: "center"}}> Number of Cards in your Deck</th>
+                    <th><p style={{textAlign: "center", fontSize: "22px"}}> Card Type </p></th>
+                    <th style={{textAlign: "center", fontSize: "22px"}}> Cards in your Deck</th>
                   </tr>
                 </thead>
                 <tbody>
                   {
                     SIDE_BAR_OPTIONS_API.map(item => {
                       return (
-                        <tr style={{textAlign: "center"}} key={item.eventKey} onClick={() => filterCardsByType(item.type)}>
+                        <tr  key={item.eventKey} onClick={() => filterCardsByType(item.type)}>
                           <td> {item.type} </td>
-                          <td> {getNrOfCardsByType(item.type)} </td>
+                          <td style={{textAlign: "center"}}> {getNrOfCardsByType(item.type)} </td>
                         </tr>
                       )
                     })
@@ -108,7 +103,7 @@ function MyDeck() {
         </Col>
         <Col sm={2}></Col>
       </Row>
-    </MyDeckContainer>
+    </BackgroundContainer>
   );
 }
 
