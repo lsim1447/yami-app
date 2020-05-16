@@ -30,10 +30,9 @@ function NavigationBar(props: any) {
             
           </Nav>
           <Nav>
-            <Nav.Link href="/all-cards"> Cards </Nav.Link>
+            <Nav.Link href="/all-cards"> ALL Cards </Nav.Link>
             <Nav.Link eventKey={2} href="/categories"> Categories </Nav.Link>
-            <Nav.Link eventKey={3} href="/test">Test</Nav.Link>
-            <Nav.Link eventKey={4} href="/my-deck"> My Deck </Nav.Link>
+            <Nav.Link eventKey={3} href="/my-deck"> My Deck </Nav.Link>
           </Nav>
           <Form inline>
             <FormControl type="text" placeholder="Search" className="mr-sm-2" />
