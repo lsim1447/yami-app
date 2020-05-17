@@ -1,17 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
-
-const HomePageContainer = styled.div `
-  background: url(homepage_background_1.jpg) no-repeat center center fixed; 
-  position: fixed;  
-  left: 0; 
-  min-width: 100%;
-  min-height: 100%;
-`;
+import { BackgroundContainer } from '../components/internal/CommonContainers';
 
 function Home() {
   return (
-    <HomePageContainer />
+    <BackgroundContainer theme={
+      {
+          backgroundImage: "homepage_background_1.jpg"
+      }
+    }>
+    
+    </BackgroundContainer>
   );
 }
 

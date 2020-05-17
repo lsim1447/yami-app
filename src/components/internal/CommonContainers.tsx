@@ -14,3 +14,7 @@ BackgroundContainer.defaultProps = {
         backgroundImage: ""
     }
 }
+
+export const CenterWrapper = styled.div `
+    text-align: center;
+`;
