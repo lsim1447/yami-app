@@ -74,7 +74,7 @@ function MyDeck() {
                                         <SideBarListItem 
                                             onClick={() => filterCardsByType(item.type)}
                                         >
-                                            {item.type}
+                                            {item.type} ({getNrOfCardsByType(item.type)})
                                         </SideBarListItem>
                                     )
                                 })
