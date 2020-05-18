@@ -4,38 +4,38 @@ import axios from 'axios';
 import { SIDE_BAR_OPTIONS_API } from '../constants';
 import { ICardDetails } from '../components/internal/Cards';
 import FlipCard from '../components/external/FlipCard';
+import SimpleFlipCard from '../components/external/SimpleFlipCard';
 import { initCards } from '../components/internal/Cards';
-import { BackgroundContainer } from '../components/internal/CommonContainers';
-import { IListItem, ListItem, SandwichBtnContainer, SideBarCloseIcon, SideBarContainer, SideBarHeaderText, hidden_sidebar, show_sidebar} from '../components/internal/SideBarComponents';
-
-const filterCards = (cards: ICardDetails[], type: string) => {
-  if (type === 'All') {
-    return cards;
-  } else {
-    return cards.filter(card => card.type === type);
-  }
-}
+import { BackgroundContainer, CenterWrapper } from '../components/internal/CommonContainers';
+import { SideBarMenuContainer, SideBarListContainer, SideBarListItem, BoxedItem, LogoBold, LogoTitle } from '../components/internal/SideBarComponents';
 
 function Categories() {
-  const [nrOfCardsToShow, setNrOfCardsToShow] = useState(200);
+  const [nrOfCardsToShow, setNrOfCardsToShow] = useState(20);
   const [cards, setCards] = useState<ICardDetails[]>([]);
-  const lateralBar: IListItem[] = SIDE_BAR_OPTIONS_API;
+  const [allCards, setAllCards] = useState<ICardDetails[]>(initCards(nrOfCardsToShow));
 
-  const filerCardsByType = (type: string) => {
-    console.log('TYPE = ', type);
+  const filterCardsByType = (type: string, deny?: boolean) => {
+    setCards([]);
+    if (type === "All") {
+        setCards(allCards);
+    } else {
+        const filteredCards: ICardDetails[] = 
+            deny ?
+                allCards.filter(card => !card.type?.includes(type)) :
+                allCards.filter(card => card.type?.includes(type));
+        setCards(filteredCards); 
+    }
   }
-
-  useEffect(() => {
-    setCards(initCards(nrOfCardsToShow));
-  }, []);
 
   useEffect(() => {
     axios.get(`http://localhost:5000/cards`)
         .then(response => {
+            console.log('response = ', response.data)
             setCards([]);
             setCards(response.data);
+            setAllCards(response.data);
         })
-    }, [nrOfCardsToShow]);  
+  }, []);
 
   return (
     <BackgroundContainer theme={
@@ -43,61 +43,57 @@ function Categories() {
         backgroundImage: "blue-ice-white-dragon.jpg"
       }
     }>
-      <Tab.Container id="left-tabs-example" defaultActiveKey="first">
-        <Row  >
-          <Col sm={2} style={{ minHeight: "100vh"}}>
-            <SideBarContainer className="w3-sidebar w3-bar-block w3-border-right" id="mySidebar">
-              <button onClick={() => hidden_sidebar()} className="w3-bar-item w3-large">
-                <SideBarHeaderText> SideBar - Menu </SideBarHeaderText>
-                <SideBarCloseIcon>&times;</SideBarCloseIcon>
-              </button>
-              <Nav variant="pills" className="flex-column">
-              {
-                lateralBar.map(item => {
-                  return (
-                    <Nav.Item key={item.eventKey}>
-                      <Nav.Link eventKey={item.eventKey} onSelect={() => filerCardsByType(item.type)}>
-                        <ListItem>
-                          { item.type } 
-                        </ListItem>
-                      </Nav.Link>
-                    </Nav.Item>
-                  )
-                })
-              }
-              </Nav>
-            </SideBarContainer>
+      <Row>
+        <Col sm={3} style={{ minHeight: "100vh"}}>
+          <div>
+            <i className="fa fa-bars toggle_menu"></i>
+            <div className="sidebar_menu">
+                <i className="fa fa-times"></i>
+                <CenterWrapper>
+                    <BoxedItem>
+                        Filter the cards by
+                        <LogoBold>
+                            Type
+                        </LogoBold>
+                    </BoxedItem>
+                    <LogoTitle>
+                        Be a Professional Duel Master
+                    </LogoTitle>
+                </CenterWrapper>
 
-            <SandwichBtnContainer>
-              <button className="w3-button w3-xlarge" onClick={(e) => show_sidebar()}>☰</button>
-            </SandwichBtnContainer>
-          </Col>
-          <Col>
-            <Tab.Content>
+                <SideBarListContainer>
+                {
+                    SIDE_BAR_OPTIONS_API.map(item => {
+                        return (
+                            <SideBarListItem 
+                                key={item.eventKey}
+                                onClick={() => filterCardsByType(item.type)}
+                            >
+                              {item.type}
+                            </SideBarListItem>
+                        )
+                    })
+                }
+                </SideBarListContainer>
+            </div>
+          </div>
+        </Col>
+        <Col sm={9}>
+          <CardDeck style={{backgroundColor: "transparent"}}>
             {
-              lateralBar.map(item => 
-                <Tab.Pane eventKey={item.eventKey} key={item.eventKey}>
-                  <CardDeck style={{backgroundColor: "#212529"}} key={item.type}>
-                    {
-                      filterCards(cards, item.type).map(
-                        card => {
-                            return (
-                                <FlipCard 
-                                    card={card}
-                                    isFullDescriptionVisible={false}
-                                    key={card.id}
-                                />
-                            );
-                        })
-                    }
-                  </CardDeck>
-                </Tab.Pane>
-              )
+              cards.map(card => {
+                    return (
+                      <FlipCard 
+                        isFullDescriptionVisible={false}
+                        card={card}
+                        key={card.id}
+                      />
+                    );
+                })
             }
-            </Tab.Content>
-          </Col>
-        </Row>
-      </Tab.Container>
+          </CardDeck>
+        </Col>
+      </Row>
     </BackgroundContainer>
   );
 }

@@ -18,23 +18,21 @@ function AllCards() {
     }, [nrOfCardsToShow]);
 
     return (
-        <>
-            <CardDeck style={{backgroundColor: "#212529"}}>
-                {
-                    cards.map(
-                        (card: ICardDetails) => {
-                            return (
-                                <FlipCard 
-                                    //id={card.id}
-                                    isFullDescriptionVisible={false}
-                                    card={card}
-                                    key={card.id}
-                                />
-                            );
-                    })
-                }
-            </CardDeck>
-        </>
+        <CardDeck style={{backgroundColor: "black"}}>
+        {
+            cards.map(
+                (card: ICardDetails) => {
+                    return (
+                        <FlipCard 
+                            //id={card.id}
+                            isFullDescriptionVisible={false}
+                            card={card}
+                            key={card.id}
+                        />
+                    );
+            })
+        }
+        </CardDeck>
     );
 }
 

@@ -16,6 +16,7 @@
 	background-color: rgba(17,17,17,0.9);
 	overflow-y: scroll;
 	margin-left: 0px;
+	min-width: 20%;
 	-ms-overflow-style: none;
 	max-height: 100vh;
 	position: fixed;
