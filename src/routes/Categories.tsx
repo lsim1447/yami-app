@@ -51,9 +51,9 @@ function Categories() {
                 <i className="fa fa-times"></i>
                 <CenterWrapper>
                     <BoxedItem>
-                        Filter the cards by
+                        Filter cards by
                         <LogoBold>
-                            Type
+                            Categories
                         </LogoBold>
                     </BoxedItem>
                     <LogoTitle>
