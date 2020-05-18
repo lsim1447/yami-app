@@ -2,7 +2,7 @@ const router = require('express').Router();
 let Card = require('../models/card.model');
 
 router.route('/').get((request, response) => {
-    Card.find({}, null, { limit: 300 })
+    Card.find({}, null, { limit: 200 })
         .then(cards => response.json(cards))
         .catch(error => response.status(400).json('Error: ' + error));
 });

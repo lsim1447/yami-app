@@ -114,5 +114,5 @@ export const SIDE_BAR_OPTIONS_API = [
     {
         eventKey: "XYZ_pendulum_effect_monster",
         type: "XYZ Pendulum Effect Monster"
-    },
+    }
 ];

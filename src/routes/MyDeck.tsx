@@ -11,7 +11,7 @@ import { SideBarMenuContainer, SideBarListContainer, SideBarListItem, BoxedItem,
 import { SIDE_BAR_OPTIONS_API } from '../constants';
 
 function MyDeck() {
-    const [nrOfCardsToShow, setNrOfCardsToShow] = useState(80);
+    const [nrOfCardsToShow, setNrOfCardsToShow] = useState(20);
     const [allCards, setAllCards] = useState<ICardDetails[]>(initCards(nrOfCardsToShow));
     const [cards, setCards] = useState<ICardDetails[]>(initCards(nrOfCardsToShow));
 
@@ -35,12 +35,15 @@ function MyDeck() {
         return allCards.filter((card: ICardDetails) => card.type?.includes(type)).length;
     }
 
-    const filterCardsByType = (type: string) => {
+    const filterCardsByType = (type: string, deny?: boolean) => {
         setCards([]);
         if (type === "All") {
             setCards(allCards);
         } else {
-            const filteredCards: ICardDetails[] = allCards.filter(card => card.type === type);
+            const filteredCards: ICardDetails[] = 
+                deny ?
+                    allCards.filter(card => !card.type?.includes(type)) :
+                    allCards.filter(card => card.type?.includes(type));
             setCards(filteredCards); 
         }
     }
@@ -125,17 +128,17 @@ function MyDeck() {
                                 </SideBarListItem>
                             </SideBarListContainer>
                             <SideBarListContainer>
-                                <SideBarListItem>
+                                <SideBarListItem onClick={() => setCards(allCards)}>
                                     Cards: { allCards.length }
                                 </SideBarListItem>
                             </SideBarListContainer>
                             <SideBarListContainer>
-                                <SideBarListItem>
+                                <SideBarListItem onClick={() => filterCardsByType('Monster')}>
                                     Monster cards: { getNrOfCardsByType('Monster') }
                                 </SideBarListItem>
                             </SideBarListContainer>
                             <SideBarListContainer>
-                                <SideBarListItem>
+                                <SideBarListItem onClick={() => filterCardsByType('Monster', true)}>
                                     Special cards: { allCards.length - getNrOfCardsByType('Monster') }
                                 </SideBarListItem>
                             </SideBarListContainer>

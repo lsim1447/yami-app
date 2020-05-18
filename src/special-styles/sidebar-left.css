@@ -5,7 +5,7 @@
 	cursor: pointer;
 	position: absolute;
 	color: white;
-	transition: all 0.2s ease-in-out;
+	transition: all 0.8s ease-in-out;
 }
 
 .fa-times:hover {
@@ -13,21 +13,27 @@
 }
 
 .sidebar_menu {
-	width: 100%;
-	margin-left: 0px;
-	overflow-y: scroll;
-	-ms-overflow-style: none;
-	min-height: 100%;
 	background-color: rgba(17,17,17,0.9);
+	overflow-y: scroll;
+	margin-left: 0px;
+	-ms-overflow-style: none;
+	max-height: 100vh;
+	position: fixed;
 	opacity: 0.9;
-	transition: all 0.3s ease-in-out;
+	transition: all 0.5s ease-in-out;
+}
+
+@media screen and (max-width: 576px) {
+	.sidebar_menu {
+	  position: relative !important;
+	  width: 100%;
+	}
 }
 
 .sidebar_menu_right {
 	display: flex;
 	justify-content: flex-end;
 	flex-direction: column;
-	
 	background-color: rgba(17,17,17,0.9);
 	height: 100vh;
 	margin-left: 0px;
@@ -35,7 +41,7 @@
 	overflow: hidden;
 	padding-bottom: 100px;
 	position: relative;
-	transition: all 0.3s ease-in-out;
+	transition: all 1.5s ease-in-out;
 	width: 100%;
 }
 
@@ -45,7 +51,7 @@
 
 .hide_menu {
 	margin-left: -100%;
-	transition: all 0.3s ease-in-out;
+	transition: all 1.5s ease-in-out;
 }
 
 .toggle_menu {
@@ -57,17 +63,17 @@
 	opacity: 0;
 	z-index: 10000;
 	font-size: 2em; 
-	transition: all 0.2s ease-in-out;
+	transition: all 1.5s ease-in-out;
 }
 
 .opacity_one {
 	opacity: 1;
-	transition: all 0.2s ease-in-out;
+	transition: all 0.9s ease-in-out;
 }
 
 .toggle_menu:hover {
 	background-color: #FE4365;
-	transition: all 0.2s ease-in-out;
+	transition: all 0.9s ease-in-out;
 }
 
 .menu_close {
@@ -77,12 +83,12 @@
 	opacity: 0.7;
 	top: 6px;
 	font-size: 1.1em;
-	transition: all 0.3s ease-in-out;
+	transition: all 0.9s ease-in-out;
 	cursor: pointer;
 }
 
 .menu_close:hover {
 	color: #FE4365;
 	opacity: 1;
-	transition: all 0.2s ease-in-out;
+	transition: all 0.9s ease-in-out;
 }

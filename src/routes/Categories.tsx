@@ -40,7 +40,7 @@ function Categories() {
   return (
     <BackgroundContainer theme={
       {
-        backgroundImage: "deck_background_image_1.jpg"
+        backgroundImage: "blue-ice-white-dragon.jpg"
       }
     }>
       <Tab.Container id="left-tabs-example" defaultActiveKey="first">

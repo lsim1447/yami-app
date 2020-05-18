@@ -19,7 +19,7 @@ const BrandText = styled.strong `
 function NavigationBar(props: any) {
   return (
     <div>
-      <Navbar style={{backgroundColor: "black"}} collapseOnSelect expand="lg"  variant="dark">
+      <Navbar fixed="top" style={{backgroundColor: "black"}} collapseOnSelect expand="lg"  variant="dark">
         <Navbar.Brand href="/">
             <NavBarImage src="milleniumIcon.png" alt="" />
             <BrandText>Yu-gi-oh Cards</BrandText> 
