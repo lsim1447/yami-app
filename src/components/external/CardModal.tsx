@@ -65,8 +65,8 @@ function CardModal(props: CartModalProps) {
                   <Carousel.Item key={c.id}>
                     <img 
                       style={{maxHeight: "600px"}}
-                      className="d-block w-100"
-                      src={(c && c.card_images) ? c.card_images[0].image_url : ''}
+                      className="d-block w-100 lazyload"
+                      data-src={(c && c.card_images) ? c.card_images[0].image_url : ''}
                       alt="First slide"
                     />
                     <Card.Footer>

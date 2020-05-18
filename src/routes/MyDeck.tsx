@@ -14,12 +14,25 @@ function MyDeck() {
     const [nrOfCardsToShow, setNrOfCardsToShow] = useState(80);
     const [allCards, setAllCards] = useState<ICardDetails[]>(initCards(nrOfCardsToShow));
     const [cards, setCards] = useState<ICardDetails[]>(initCards(nrOfCardsToShow));
-    const [open, setOpen] = useState(true);
+
+    const getDeckValue = () => {
+        if (cards && cards.length) {
+            return cards.reduce((accumulator: number, currentCard: ICardDetails) => {
+                const price: number = Number((currentCard && currentCard.card_prices && currentCard.card_prices[0]) ? currentCard.card_prices[0].amazon_price : 0);
+                const newAccumulator: number = Number((accumulator + price).toFixed(2));
+
+                return newAccumulator ? newAccumulator : accumulator;
+            }, 0);
+        } else {
+            return 0;
+        }
+    }
 
     const getNrOfCardsByType = (type: string) => {
         if (!allCards) return 0;
         if (type === "All") return allCards.length;
-        return allCards.filter((card: ICardDetails) => card && card.type === type).length;
+        
+        return allCards.filter((card: ICardDetails) => card.type?.includes(type)).length;
     }
 
     const filterCardsByType = (type: string) => {
@@ -99,8 +112,33 @@ function MyDeck() {
                     </CardDeck>
                 </Col>
                 <Col sm={2}>
-                <SideBarMenuContainer>
+                    <SideBarMenuContainer>
                         <div className="sidebar_menu_right">
+                            <SideBarListContainer>
+                                <SideBarListItem style={{fontSize: "22px"}}>
+                                    Account Balance: 29.7 $
+                                </SideBarListItem>
+                            </SideBarListContainer>
+                            <SideBarListContainer>
+                                <SideBarListItem>
+                                    Your deck's value: {getDeckValue()} $
+                                </SideBarListItem>
+                            </SideBarListContainer>
+                            <SideBarListContainer>
+                                <SideBarListItem>
+                                    Cards: { allCards.length }
+                                </SideBarListItem>
+                            </SideBarListContainer>
+                            <SideBarListContainer>
+                                <SideBarListItem>
+                                    Monster cards: { getNrOfCardsByType('Monster') }
+                                </SideBarListItem>
+                            </SideBarListContainer>
+                            <SideBarListContainer>
+                                <SideBarListItem>
+                                    Special cards: { allCards.length - getNrOfCardsByType('Monster') }
+                                </SideBarListItem>
+                            </SideBarListContainer>
                             <CenterWrapper>
                                 <BoxedItem>
                                     Name your 

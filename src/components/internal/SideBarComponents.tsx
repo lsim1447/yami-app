@@ -31,7 +31,7 @@ export const SideBarCloseIcon = styled.div `
 `;
 
 export const SideBarContainer = styled.div `
-  background-color: #343a40;
+  background-color: black;
   display: block;
   width: 16.66%;
   min-width: 200px;
@@ -57,7 +57,9 @@ export const show_sidebar = () => {
 
 // MY DECK SIDEBAR MENU
 export const SideBarMenuContainer = styled.div `
-  position: fixed;
+  @media (min-width: 576px) {
+    position: fixed;
+  }
 `;
 
 export const SideBarListContainer = styled.ul `
