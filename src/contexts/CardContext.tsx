@@ -37,7 +37,6 @@ export const CardProvider = (props: any) => {
     
     return (
         <CardContext.Provider value={{ 
-            ...initialState,
             allCards: all_cards,
             setAllCards: setAllCards,
             cards: cards,

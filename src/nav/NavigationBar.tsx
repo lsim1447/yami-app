@@ -18,9 +18,14 @@ const BrandText = styled.strong `
     top: 4px;
 `;
 
+const ShoppingCartWrapper = styled.div `
+  font-size: 20px;
+  padding-left: 12px;
+`;
+
 function NavigationBar(props: any) {
   const { cards, setCards } = useContext(CardContext);
-  
+
   return (
     <div>
       <Navbar fixed="top" style={{backgroundColor: "black"}} collapseOnSelect expand="lg"  variant="dark">
@@ -43,6 +48,12 @@ function NavigationBar(props: any) {
                   placeholder={"Search"}
               />
             </Nav>
+            <Nav.Link eventKey={5} href="/checkout">
+              <ShoppingCartWrapper>
+                <i className="fa fa-shopping-cart"></i>
+                <sup style={{fontSize: "16px"}}> 3 </sup>
+              </ShoppingCartWrapper>
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

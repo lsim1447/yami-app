@@ -8,26 +8,27 @@ import SimpleFlipCard  from '../external/SimpleFlipCard';
 
 const AutoCompleteTextContainer = styled.div `
     width: 100%;
-    border: 1px solid grey;
-    box-shadow: 5px 5px 5px rgba(68, 68, 68, 0.6);
     font-family: Arial, Helvetica, sans-serif;
     font-size: 12px;
     color: black;
 `;
 
 const AutoCompleteInput = styled.input `
-    @media (min-width: 992px) {
-        max-width: 125px;
-    }
     width: 100%;
-    border: none;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 14px;
     color: black;
-    padding: 10px 25px;
+    padding: 5px 15px;
     box-sizing: border-box;
     outline: none;
     text-align: center;
+    @media (min-width: 992px) {
+        max-width: 125px;
+    }
+    ::placeholder {
+        color: #32CD32;
+        opacity: 1; 
+    }
 `;
 
 const AutoCompleteUl = styled.ul `
