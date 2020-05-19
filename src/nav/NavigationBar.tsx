@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useContext, useState, useEffect } from 'react';
+import  { CardContext }  from "./../contexts/CardContext";
+import AutoComplete from './../components/internal/AutoComplete';
 import { Button, Form, FormControl, Navbar, Nav } from 'react-bootstrap';
 import styled from 'styled-components';
 
@@ -17,6 +19,8 @@ const BrandText = styled.strong `
 `;
 
 function NavigationBar(props: any) {
+  const { cards, setCards } = useContext(CardContext);
+  
   return (
     <div>
       <Navbar fixed="top" style={{backgroundColor: "black"}} collapseOnSelect expand="lg"  variant="dark">
@@ -33,11 +37,13 @@ function NavigationBar(props: any) {
             <Nav.Link href="/all-cards"> ALL Cards </Nav.Link>
             <Nav.Link eventKey={2} href="/categories"> Categories </Nav.Link>
             <Nav.Link eventKey={3} href="/my-deck"> My Deck </Nav.Link>
+            <Nav>
+              <AutoComplete 
+                  items={cards} 
+                  placeholder={"Search"}
+              />
+            </Nav>
           </Nav>
-          <Form inline>
-            <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-            <Button variant="outline-success">Search</Button>
-          </Form>
         </Navbar.Collapse>
       </Navbar>
       { props.children }

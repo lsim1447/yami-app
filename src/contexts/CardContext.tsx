@@ -16,24 +16,32 @@ export const CardContext = React.createContext(initialState);
 export const CardContextConsumer = CardContext.Consumer;
 
 export const CardProvider = (props: any) => {
-    const [cards, setCards] = useState<ICardDetails[]>([]);
+    const [cards, setTheCards] = useState<ICardDetails[]>([]);
+    const [all_cards, setAllTheCards] = useState<ICardDetails[]>([]);
+
+    const setCards = (newCards: ICardDetails[]) => {
+        setTheCards(newCards);
+    }
 
     const setAllCards = (newCards: ICardDetails[]) => {
-        setCards(newCards);
+        setAllTheCards(newCards);
     }
     
     useEffect(() => {
         axios.get(`http://localhost:5000/cards`)
             .then(response => {
-                setCards(response.data);
+                setTheCards(response.data);
+                setAllTheCards(response.data);
             })
     }, []);
     
     return (
         <CardContext.Provider value={{ 
             ...initialState,
-            allCards: cards,
-            setAllCards: setAllCards
+            allCards: all_cards,
+            setAllCards: setAllCards,
+            cards: cards,
+            setCards: setCards
          }}>
             { props.children }
         </CardContext.Provider>

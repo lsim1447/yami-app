@@ -10,4 +10,12 @@ $(document).ready(function(){
 		$(".toggle_menu").removeClass("opacity_one");
 		$(".fa-times").show();
 	});
+
+	$(".search_auto_complete").focusout(function(){
+		$('.seach_results_container').hide();
+	});
+
+	$(".search_auto_complete").focusin(function(){
+		$('.seach_results_container').show();
+	});
 });
