@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
+import { CardContext } from "../contexts/CardContext";
 import { CardDeck, Col, Row, Nav, Tab } from 'react-bootstrap';
 import axios from 'axios';
 import { SIDE_BAR_OPTIONS_API } from '../constants';
 import { ICardDetails } from '../components/internal/Cards';
 import FlipCard from '../components/external/FlipCard';
 import SimpleFlipCard from '../components/external/SimpleFlipCard';
-import { initCards } from '../components/internal/Cards';
 import { BackgroundContainer, CenterWrapper } from '../components/internal/CommonContainers';
-import { SideBarMenuContainer, SideBarListContainer, SideBarListItem, BoxedItem, LogoBold, LogoTitle } from '../components/internal/SideBarComponents';
+import { SideBarListContainer, SideBarListItem, BoxedItem, LogoBold, LogoTitle } from '../components/internal/SideBarComponents';
 
 function Categories() {
   const [nrOfCardsToShow, setNrOfCardsToShow] = useState(20);
   const [cards, setCards] = useState<ICardDetails[]>([]);
-  const [allCards, setAllCards] = useState<ICardDetails[]>(initCards(nrOfCardsToShow));
+  const { allCards, setAllCards } = useContext(CardContext);
 
   const filterCardsByType = (type: string, deny?: boolean) => {
     setCards([]);
@@ -28,14 +28,8 @@ function Categories() {
   }
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/cards`)
-        .then(response => {
-            console.log('response = ', response.data)
-            setCards([]);
-            setCards(response.data);
-            setAllCards(response.data);
-        })
-  }, []);
+    setCards(allCards);
+  }, [allCards]);
 
   return (
     <BackgroundContainer theme={

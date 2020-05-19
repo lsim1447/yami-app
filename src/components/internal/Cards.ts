@@ -59,7 +59,7 @@ export const DEFAULT_CARD_VALUE: ICardDetails = {
     type: ''
 }
 
-export const initCards = (nrOfCardsToShow: number) => {
+export const getInitialCardList = (nrOfCardsToShow: number) => {
     const initialCards: ICardDetails[] = [];
     for (let index = 0; index < nrOfCardsToShow; index++) {
         initialCards.push(DEFAULT_CARD_VALUE);

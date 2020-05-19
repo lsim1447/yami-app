@@ -1,26 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
+import { CardContext } from "../contexts/CardContext";
 import { CardDeck } from 'react-bootstrap';
 import axios from 'axios';
 import { ICardDetails } from '../components/internal/Cards';
 import FlipCard from '../components/external/FlipCard';
-import { initCards } from '../components/internal/Cards';
 
 function AllCards() {
-    const [nrOfCardsToShow, setNrOfCardsToShow] = useState(80);
-    const [cards, setCards] = useState<ICardDetails[]>(initCards(nrOfCardsToShow));
-    
-    useEffect(() => {
-        axios.get(`http://localhost:5000/cards`)
-            .then(response => {
-                setCards([]);
-                setCards(response.data);
-            })
-    }, [nrOfCardsToShow]);
+    const { allCards, setAllCards } = useContext(CardContext);
 
     return (
         <CardDeck style={{backgroundColor: "black"}}>
         {
-            cards.map(
+            allCards.map(
                 (card: ICardDetails) => {
                     return (
                         <FlipCard 

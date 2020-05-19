@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { ICardDetails } from '../internal/Cards';
 import YuGiOhCard from './YuGiOhCard';
 import { MAX_NUMBER_OF_SIMILAR_CARDS } from '../../constants';
-import { getRandomInt, initCards } from '../internal/Cards';
+import { getRandomInt, getInitialCardList } from '../internal/Cards';
 
 const PriceContainer = styled.p `
   padding-top: 12px;
@@ -29,7 +29,7 @@ function CardModal(props: CartModalProps) {
     show
   } = props;
 
-  const [similarCards, setSimilarCards] = useState<ICardDetails[]>(initCards(MAX_NUMBER_OF_SIMILAR_CARDS));
+  const [similarCards, setSimilarCards] = useState<ICardDetails[]>(getInitialCardList(MAX_NUMBER_OF_SIMILAR_CARDS));
 
   useEffect(() => {
     if (show) {
