@@ -52,6 +52,7 @@
     ]
   },
   "devDependencies": {
-    "react-animate-height": "^2.0.21"
+    "react-animate-height": "^2.0.21",
+    "react-confirm-alert": "^2.6.1"
   }
 }

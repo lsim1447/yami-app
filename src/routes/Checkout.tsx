@@ -34,6 +34,7 @@ const RightCol = styled(CustomCol) `
 
 const BagWrapper = styled.div `
     font-size: 30px;
+    font-weight: 600;
     padding: 12px 0;
     text-align: center;
     width: 100%;
@@ -63,11 +64,19 @@ const CoverWrapper = styled.div `
 `;
 
 const DescriptionWrapper = styled.div `
-  border-bottom: 1px solid #D3D3D3;
-  overlay: hidden;
-  padding: 16px 18px;
-  text-align: center;
-  width: 100%;
+    border-bottom: 1px solid #D3D3D3;
+    overlay: hidden;
+    padding: 16px 18px;
+    text-align: center;
+    width: 100%;
+`;
+
+const TitleWrapper = styled.div `
+    border-bottom: 1px solid #D3D3D3;
+    font-size: 36px;
+    font-weight: 800;
+    padding-bottom: 16px 18px;
+    text-align: center;
 `;
 
 const TotalPrice = styled.div `
@@ -110,6 +119,9 @@ function Checkout() {
                 Yu-Gi-Oh! is a Japanese manga series about gaming written and illustrated by Kazuki Takahashi.
                 It was serialized in Shueisha's Weekly Shōnen Jump magazine between September 30, 1996 and March 8, 2004.
             </DescriptionWrapper>
+            <TitleWrapper>
+                COMPLETE YOUR CHECKOUT
+            </TitleWrapper>
             <DescriptionWrapper>
                 Congratulations! Your order qualifies for FREE Standard Shipping. No offer code needed.
             </DescriptionWrapper>
@@ -121,6 +133,8 @@ function Checkout() {
                 cards.map((card: ICardDetails) => {
                     return (
                         <CartItem
+                            cards={cards}
+                            setCards={setCards}
                             cartItem={card}
                         />
                     )
