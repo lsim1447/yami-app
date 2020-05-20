@@ -38,7 +38,7 @@ function Categories() {
       }
     }>
       <Row>
-        <Col sm={3} style={{ minHeight: "100vh"}}>
+        <Col>
           <div>
             <i className="fa fa-bars toggle_menu"></i>
             <div className="sidebar_menu">

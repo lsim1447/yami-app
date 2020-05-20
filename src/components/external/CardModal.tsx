@@ -28,8 +28,12 @@ function CardModal(props: CartModalProps) {
     onHide,
     show
   } = props;
-
+  
   const [similarCards, setSimilarCards] = useState<ICardDetails[]>(getInitialCardList(MAX_NUMBER_OF_SIMILAR_CARDS));
+
+  const addToCart = (card?: ICardDetails) => {
+
+  }
 
   useEffect(() => {
     if (show) {
@@ -86,6 +90,7 @@ function CardModal(props: CartModalProps) {
         <Button
           style={{width: "100%"}} 
           disabled={addToDeckDisabled ? addToDeckDisabled : false}
+          onClick={() => addToCart(card)}
           variant="dark"
         >
           {addToDeckDisabled ? 'ADDED TO YOUR DECK' : 'ADD TO MY DECK'} 
