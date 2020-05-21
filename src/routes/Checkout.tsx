@@ -3,7 +3,7 @@ import { CardContext } from "../contexts/CardContext";
 import { Button, Col, Row } from 'react-bootstrap';
 import styled from 'styled-components';
 import CartItem from '../components/external/CartItem';
-import { ICardDetails, getInitialCardList } from '../components/internal/Cards';
+import { ICardDetails } from '../components/internal/Cards';
 
 const CustomCol = styled(Col) `
     border-left: 1px solid #D3D3D3;
@@ -90,13 +90,12 @@ const TotalPrice = styled.div `
 `;
 
 function Checkout() {
-  const NR_OF_CART_ITEMS = 2;
   const { allCards, setAllCards } = useContext(CardContext);
-  const [cards, setCards] = useState<ICardDetails[]>(getInitialCardList(NR_OF_CART_ITEMS));
+  const { cartItems, setCartItems } = useContext(CardContext);
 
   const getTotalPrice = () => {
-    if (cards && cards.length) {
-        return cards.reduce((accumulator: number, currentCard: ICardDetails) => {
+    if (cartItems && cartItems.length) {
+        return cartItems.reduce((accumulator: number, currentCard: ICardDetails) => {
             const price: number = Number((currentCard && currentCard.card_prices && currentCard.card_prices[0]) ? currentCard.card_prices[0].amazon_price : 0);
             const newAccumulator: number = Number((accumulator + price).toFixed(2));
 
@@ -106,10 +105,6 @@ function Checkout() {
         return 0;
     }
   }
-
-  useEffect(() => {
-    setCards(allCards.slice(0, NR_OF_CART_ITEMS));
-  }, [allCards]);
 
   return (
     <Row>
@@ -127,14 +122,12 @@ function Checkout() {
             </DescriptionWrapper>
             <CoverWrapper />
             <BagWrapper>
-                My Bag ({cards.length} items)
+                My Bag ({cartItems.length} items)
             </BagWrapper>
             {
-                cards.map((card: ICardDetails) => {
+                cartItems.map((card: ICardDetails) => {
                     return (
                         <CartItem
-                            cards={cards}
-                            setCards={setCards}
                             cartItem={card}
                         />
                     )

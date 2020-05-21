@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
+import { CardContext } from "../../contexts/CardContext";
 import { Button, Card, Carousel, Modal, Tabs, Tab } from 'react-bootstrap';
 import axios from 'axios';
 import styled from 'styled-components';
 import { ICardDetails } from '../internal/Cards';
 import YuGiOhCard from './YuGiOhCard';
 import { MAX_NUMBER_OF_SIMILAR_CARDS } from '../../constants';
-import { getRandomInt, getInitialCardList } from '../internal/Cards';
+import { getInitialCardList } from '../internal/Cards';
 
 const PriceContainer = styled.p `
   padding-top: 12px;
@@ -15,7 +16,6 @@ const PriceContainer = styled.p `
 `;
 
 type CartModalProps = {
-  addToDeckDisabled?: boolean,
   card?: ICardDetails,
   onHide: any,
   show: boolean,
@@ -23,17 +23,41 @@ type CartModalProps = {
 
 function CardModal(props: CartModalProps) {
   const {
-    addToDeckDisabled,
     card,
     onHide,
     show
   } = props;
   
+  const [isCardAlreadyAdded, setIsCardAlreadyAdded] = useState<boolean>(false);
+  const { cartItems, setCartItems } = useContext(CardContext);
   const [similarCards, setSimilarCards] = useState<ICardDetails[]>(getInitialCardList(MAX_NUMBER_OF_SIMILAR_CARDS));
 
   const addToCart = (card?: ICardDetails) => {
+    let cardIDs = localStorage.getItem('card_ids');
+    const card_id = card ? card._id : '';
 
+    if (cardIDs) {
+      cardIDs = cardIDs + '|' + card_id;
+      localStorage.setItem('card_ids', cardIDs);
+      setCartItems([...cartItems, card]);
+    } else {
+      localStorage.setItem('card_ids', card_id);
+      if (card) {
+        setCartItems([...cartItems, card]);
+      }
+    }
+
+    onHide(false);
   }
+
+  useEffect(() => {
+    const cardIDs = localStorage.getItem('card_ids');
+    
+    if (cardIDs) {
+      const tmpIsAlreadyAdded = cardIDs.split('|').some(id => id === card?._id);
+      setIsCardAlreadyAdded(tmpIsAlreadyAdded);
+    }
+  }, []);
 
   useEffect(() => {
     if (show) {
@@ -42,11 +66,11 @@ function CardModal(props: CartModalProps) {
         "race": (card ? card.race : ''),
         "limit": MAX_NUMBER_OF_SIMILAR_CARDS
       }).then(response => {
-          setSimilarCards([]);
-          setSimilarCards(response.data);
+        setSimilarCards([]);
+        setSimilarCards([...response.data]);
       })
     }
-  }, [show]);  
+  }, [show]);
 
   return (
     <Modal animation={true} show={show} onHide={onHide}>
@@ -89,11 +113,11 @@ function CardModal(props: CartModalProps) {
       <Modal.Footer>
         <Button
           style={{width: "100%"}} 
-          disabled={addToDeckDisabled ? addToDeckDisabled : false}
+          disabled={isCardAlreadyAdded}
           onClick={() => addToCart(card)}
           variant="dark"
         >
-          {addToDeckDisabled ? 'ADDED TO YOUR DECK' : 'ADD TO MY DECK'} 
+          {isCardAlreadyAdded ? 'ALREADY IN YOUR DECK / BAG' : 'ADD TO BAG'} 
         </Button>
       </Modal.Footer>
     </Modal>

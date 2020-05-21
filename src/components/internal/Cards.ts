@@ -22,6 +22,7 @@ export interface ICardSets
 
 export interface ICardDetails
 {
+    _id: string,
     archetype?: string,
     atk?: number, 
     attribute?: string,
@@ -44,6 +45,7 @@ export type CardProps = {
 }
 
 export const DEFAULT_CARD_VALUE: ICardDetails = {
+    _id: '',
     archetype: '',
     atk: 0, 
     attribute: '',

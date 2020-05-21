@@ -25,6 +25,7 @@ const ShoppingCartWrapper = styled.div `
 
 function NavigationBar(props: any) {
   const { cards, setCards } = useContext(CardContext);
+  const { cartItems, setCartItems } = useContext(CardContext);
 
   return (
     <div>
@@ -51,7 +52,7 @@ function NavigationBar(props: any) {
             <Nav.Link eventKey={5} href="/checkout">
               <ShoppingCartWrapper>
                 <i className="fa fa-shopping-cart"></i>
-                <sup style={{fontSize: "16px"}}> 3 </sup>
+                <sup style={{fontSize: "16px"}}> {cartItems.length} </sup>
               </ShoppingCartWrapper>
             </Nav.Link>
           </Nav>

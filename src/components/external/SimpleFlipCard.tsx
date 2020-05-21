@@ -46,7 +46,6 @@ const SimpleFlipCard = ({ id, isFullDescriptionVisible, card } : CardProps) => {
                 card={card}
                 onHide={() => setModalShow(false)}
                 show={modalShow}
-                addToDeckDisabled={true}
             />
         </SimpleCardContainer>
     );

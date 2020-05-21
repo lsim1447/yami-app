@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Card } from 'react-bootstrap';
+import React, { useContext, useState, useEffect } from 'react';
+import { CardContext } from "../../contexts/CardContext";
 import { Col, Row } from 'react-bootstrap';
 import styled from 'styled-components';
 import { ICardDetails, DEFAULT_CARD_VALUE } from '../internal/Cards';
@@ -34,24 +34,25 @@ const CloseIcon = styled.i `
 `
 
 export type CartItemProps = {
-    cards: ICardDetails[],
-    setCards: any,
     cartItem: ICardDetails
 }
 
-const CartItem = ({ cards, setCards, cartItem } : CartItemProps) => {
+const CartItem = ({cartItem } : CartItemProps) => {
+    const { cartItems, setCartItems } = useContext(CardContext);
     const [modalShow, setModalShow] = useState(false);
 
     const removeCartItem = () => {
         confirmAlert({
             title: 'Confirmation',
-            message: 'Are you sure you want to delete this?',
+            message: 'Are you sure you want to remove this?',
             buttons: [
               {
-                label: 'Yes, I want to delete this.',
+                label: 'Yes, I want to remove this.',
                 onClick: () => {
-                    const newCards = cards.filter(c => c.name !== cartItem.name);
-                    setCards(newCards);
+                    const newCartItems = cartItems.filter(c => c.name !== cartItem.name);
+                    const cardIDs = newCartItems.map(card => card._id).join('|');
+                    localStorage.setItem('card_ids', cardIDs);
+                    setCartItems([...newCartItems]);
                 }
               },
               {
@@ -99,7 +100,6 @@ const CartItem = ({ cards, setCards, cartItem } : CartItemProps) => {
             </Row>
 
             <CardModal
-                addToDeckDisabled={true}
                 card={cartItem}
                 show={modalShow}
                 onHide={() => setModalShow(false)}
