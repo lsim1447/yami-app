@@ -40,6 +40,7 @@ export interface ICardDetails
 
 export type CardProps = {
     id?: number;
+    isAddToBagButtonDisabled?: boolean,
     isFullDescriptionVisible: boolean,
     card?: ICardDetails
 }

@@ -3,7 +3,7 @@ import { Card } from 'react-bootstrap';
 import axios from 'axios';
 import styled from 'styled-components';
 import { CardProps, DEFAULT_CARD_VALUE, ICardDetails } from '../internal/Cards';
-import CardModal from './CardModal';
+import CardModal from '../modals/CardModal';
 import { FlipCardInner, FlipCardContainer, FlipCardFront, FlipCardBack } from '../internal/FlipComponents';
 
 const SimpleCardContainer = styled.div `
@@ -15,7 +15,7 @@ const SimpleCardContainer = styled.div `
     }
 `;
 
-const SimpleFlipCard = ({ id, isFullDescriptionVisible, card } : CardProps) => {
+const SimpleFlipCard = ({ id, isAddToBagButtonDisabled, isFullDescriptionVisible, card } : CardProps) => {
     const initialValue: ICardDetails = DEFAULT_CARD_VALUE;
     const [cardDetails, setCardDetails] = useState(initialValue);
     const [modalShow, setModalShow] = useState(false);
@@ -44,6 +44,7 @@ const SimpleFlipCard = ({ id, isFullDescriptionVisible, card } : CardProps) => {
             </Card>
             <CardModal
                 card={card}
+                isAddToBagButtonDisabled={isAddToBagButtonDisabled}
                 onHide={() => setModalShow(false)}
                 show={modalShow}
             />

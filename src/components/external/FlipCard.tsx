@@ -3,7 +3,7 @@ import { Card } from 'react-bootstrap';
 import axios from 'axios';
 import styled from 'styled-components';
 import { CardProps, DEFAULT_CARD_VALUE, ICardDetails } from '../internal/Cards';
-import CardModal from './CardModal';
+import CardModal from '../modals/CardModal';
 import { FlipCardInner, FlipCardContainer, FlipCardFront, FlipCardBack } from '../internal/FlipComponents';
 
 const PriceContainer = styled.p `

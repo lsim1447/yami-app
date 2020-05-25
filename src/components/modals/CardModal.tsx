@@ -4,7 +4,7 @@ import { Button, Card, Carousel, Modal, Tabs, Tab } from 'react-bootstrap';
 import axios from 'axios';
 import styled from 'styled-components';
 import { ICardDetails } from '../internal/Cards';
-import YuGiOhCard from './YuGiOhCard';
+import YuGiOhCard from '../external/YuGiOhCard';
 import { MAX_NUMBER_OF_SIMILAR_CARDS } from '../../constants';
 import { getInitialCardList } from '../internal/Cards';
 
@@ -17,6 +17,7 @@ const PriceContainer = styled.p `
 
 type CartModalProps = {
   card?: ICardDetails,
+  isAddToBagButtonDisabled?: boolean,
   onHide: any,
   show: boolean,
 }
@@ -24,6 +25,7 @@ type CartModalProps = {
 function CardModal(props: CartModalProps) {
   const {
     card,
+    isAddToBagButtonDisabled,
     onHide,
     show
   } = props;
@@ -113,11 +115,11 @@ function CardModal(props: CartModalProps) {
       <Modal.Footer>
         <Button
           style={{width: "100%"}} 
-          disabled={isCardAlreadyAdded}
+          disabled={isCardAlreadyAdded && !isAddToBagButtonDisabled}
           onClick={() => addToCart(card)}
           variant="dark"
         >
-          {isCardAlreadyAdded ? 'ALREADY IN YOUR DECK / BAG' : 'ADD TO BAG'} 
+          {(isCardAlreadyAdded && !isAddToBagButtonDisabled) ? 'ALREADY IN YOUR DECK / BAG' : 'ADD TO BAG'} 
         </Button>
       </Modal.Footer>
     </Modal>

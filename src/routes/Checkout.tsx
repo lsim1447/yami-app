@@ -55,6 +55,10 @@ const CheckoutButton = styled(Button)`
     float: right;
     margin-bottom: 24px;
     padding: 12px 60px;
+
+    @media (max-width: 992px) {
+        width: 100%;
+    }
 `;
 
 const CheckoutFooterWrapper = styled.div `
@@ -85,7 +89,7 @@ const TitleWrapper = styled.div `
     border-bottom: 1px solid #D3D3D3;
     font-size: 36px;
     font-weight: 800;
-    padding-bottom: 16px 18px;
+    padding: 16px 18px;
     text-align: center;
 `;
 
@@ -97,6 +101,10 @@ const TotalPrice = styled.div `
     padding-top: 12px;
     text-align: right;
     width: 100;
+
+    @media (max-width: 992px) {
+        text-align: center;
+    }
 `;
 
 function Checkout() {
