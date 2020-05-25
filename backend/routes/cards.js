@@ -49,6 +49,21 @@ router.route('/:id').get((request, response) => {
         .catch(error => response.status(400).json('Error: ' + error));
 });
 
+router.route('/findAllByIds').post((request, response) => {
+    const ids = request.body.ids;
+    
+    Card.find()
+        .where('_id')
+        .in(ids)
+        .exec((error, cards) => {
+            if (error) {
+                response.send('Error: ' + error);
+            }    
+            
+            response.json(cards);
+        });
+});
+
 router.route('/:id').delete((request, response) => {
     Card.findByIdAndDelete(request.params.id)
         .then(() => response.json('Card has been deleted!'))

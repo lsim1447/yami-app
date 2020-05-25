@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { CardContext } from "../contexts/CardContext";
+import { UserContext } from "../contexts/UserContext";
 import axios from 'axios';
 import {  CardDeck, Col, Row } from 'react-bootstrap';
 import '../special-styles/sidebar-left.css'
@@ -13,8 +14,8 @@ import { SIDE_BAR_OPTIONS_API } from '../constants';
 function MyDeck() {
     const [nrOfCardsToShow, setNrOfCardsToShow] = useState(20);
     const [cards, setCards] = useState<ICardDetails[]>(getInitialCardList(nrOfCardsToShow));
-    const { allCards, setAllCards } = useContext(CardContext);
-    
+    const { user, setUser } = useContext(UserContext);
+
     const getDeckValue = () => {
         if (cards && cards.length) {
             return cards.reduce((accumulator: number, currentCard: ICardDetails) => {
@@ -29,27 +30,46 @@ function MyDeck() {
     }
 
     const getNrOfCardsByType = (type: string) => {
-        if (!allCards) return 0;
-        if (type === "All") return allCards.length;
+        if (!cards) return 0;
+        if (type === "All") return cards.length;
         
-        return allCards.filter((card: ICardDetails) => card.type?.includes(type)).length;
+        return cards.filter((card: ICardDetails) => card.type?.includes(type)).length;
     }
 
     const filterCardsByType = (type: string, deny?: boolean) => {
         if (type === "All") {
-            setCards(allCards);
+            setCards(cards);
         } else {
             const filteredCards: ICardDetails[] = 
                 deny ?
-                    allCards.filter(card => !card.type?.includes(type)) :
-                    allCards.filter(card => card.type?.includes(type));
+                    cards.filter(card => !card.type?.includes(type)) :
+                    cards.filter(card => card.type?.includes(type));
             setCards(filteredCards); 
         }
     }
 
     useEffect(() => {
-        setCards(allCards);
-    }, [allCards]);
+        axios.get(`http://localhost:5000/users`)
+            .then(response => {
+                const IDS = (response.data && response.data[0].deck) ?   // IF there will be multiple user, we should find the current one;
+                    response.data[0].deck :
+                    [];
+
+                if (IDS) {
+                    axios.post(`http://localhost:5000/cards/findAllByIds`, {
+                        "ids": IDS
+                    })
+                        .then(response => {
+                            const myDeck = response.data;
+                            console.log('myDeck = ', myDeck);
+                            setCards([]);
+                            setCards(myDeck);
+                        })
+                } else {
+                    setCards([]);
+                }
+            })
+    }, []);
 
     return (
         <BackgroundContainer theme={
@@ -111,7 +131,7 @@ function MyDeck() {
                         <div className="sidebar_menu_right">
                             <SideBarListContainer>
                                 <SideBarListItem style={{fontSize: "22px"}}>
-                                    Account Balance: 29.7 $
+                                    Account Balance: {user.accountBalance} $
                                 </SideBarListItem>
                             </SideBarListContainer>
                             <SideBarListContainer>
@@ -120,8 +140,8 @@ function MyDeck() {
                                 </SideBarListItem>
                             </SideBarListContainer>
                             <SideBarListContainer>
-                                <SideBarListItem onClick={() => setCards(allCards)}>
-                                    Cards: { allCards.length }
+                                <SideBarListItem onClick={() => setCards(cards)}>
+                                    Cards: { cards.length }
                                 </SideBarListItem>
                             </SideBarListContainer>
                             <SideBarListContainer>
@@ -131,7 +151,7 @@ function MyDeck() {
                             </SideBarListContainer>
                             <SideBarListContainer>
                                 <SideBarListItem onClick={() => filterCardsByType('Monster', true)}>
-                                    Special cards: { allCards.length - getNrOfCardsByType('Monster') }
+                                    Special cards: { cards.length - getNrOfCardsByType('Monster') }
                                 </SideBarListItem>
                             </SideBarListContainer>
                             <CenterWrapper>

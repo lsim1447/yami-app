@@ -52,7 +52,7 @@ export const CardProvider = (props: any) => {
             allCards: all_cards,
             setAllCards: setAllCards,
             cartItems: cartItems,
-            setCartItems: setCartItems
+            setCartItems: setCartItems,
          }}>
             { props.children }
         </CardContext.Provider>

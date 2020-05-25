@@ -1,6 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { CardContext } from "../contexts/CardContext";
+import { UserContext } from "../contexts/UserContext";
 import { Button, Col, Row } from 'react-bootstrap';
+import axios from 'axios';
 import styled from 'styled-components';
 import CartItem from '../components/external/CartItem';
 import { ICardDetails } from '../components/internal/Cards';
@@ -17,17 +19,25 @@ const LeftCol = styled(CustomCol) `
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    @media (max-width: 575px) {
+    @media (max-width: 992px) {
         display: none;
     }
 `;
+
+const CenterCol = styled(CustomCol) `
+    @media (max-width: 992px) {
+        max-width: 100%;
+        flex: 0 0 100%;
+    }
+`;
+
 const RightCol = styled(CustomCol) `
     background: url(checkout-right.jpg) top center;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    @media (max-width: 575px) {
+    @media (max-width: 992px) {
         display: none;
     }
 `;
@@ -92,6 +102,7 @@ const TotalPrice = styled.div `
 function Checkout() {
   const { allCards, setAllCards } = useContext(CardContext);
   const { cartItems, setCartItems } = useContext(CardContext);
+  const { user, setUser } = useContext(UserContext);
 
   const getTotalPrice = () => {
     if (cartItems && cartItems.length) {
@@ -106,10 +117,28 @@ function Checkout() {
     }
   }
 
+  const checkoutCartItems = () => {
+    const NEW_DECK_ITEMS = user.deck.concat(cartItems.map(item => item._id));
+    const ALL_CARDS_PRICE = cartItems.reduce((accumulator, cartItem) => {
+        return accumulator + Number(cartItem.card_prices[0].amazon_price);
+    }, 0);
+
+    axios.post(`http://localhost:5000/users/update/${user._id}`, {
+        accountBalance: ALL_CARDS_PRICE,
+        username: user.username,
+        password: user.password,
+        deck: NEW_DECK_ITEMS
+    })
+        .then(response => {
+            localStorage.removeItem('card_ids');
+            setCartItems([]);
+        })   
+  }
+
   return (
     <Row>
         <LeftCol sm={3}/>
-        <CustomCol sm={6}>
+        <CenterCol sm={6}>
             <DescriptionWrapper>
                 Yu-Gi-Oh! is a Japanese manga series about gaming written and illustrated by Kazuki Takahashi.
                 It was serialized in Shueisha's Weekly Shōnen Jump magazine between September 30, 1996 and March 8, 2004.
@@ -135,9 +164,14 @@ function Checkout() {
             }
             <TotalPrice> TOTAL PRICE: {getTotalPrice()} $</TotalPrice>
             <CheckoutFooterWrapper>
-                <CheckoutButton variant="dark"> CHECKOUT </CheckoutButton>
+                <CheckoutButton
+                    onClick={() => checkoutCartItems()}
+                    variant="dark"
+                >
+                     CHECKOUT
+                </CheckoutButton>
             </CheckoutFooterWrapper>
-        </CustomCol>
+        </CenterCol>
         <RightCol sm={3}/>
     </Row>
   );

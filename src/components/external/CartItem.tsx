@@ -22,6 +22,7 @@ const HeaderWrapper = styled.p `
 `;
 
 const CenterWrapper = styled.p `
+    padding-top: 12px;
     text-align: center;
 `;
 
@@ -78,14 +79,16 @@ const CartItem = ({cartItem } : CartItemProps) => {
                     <img
                         width="100%"
                         height="100%"
-                        className="lazyload"
+                        //className="lazyload"
                         onClick={() => setModalShow(true)}
-                        src={DEFAULT_CARD_VALUE.card_images[0].image_url} 
-                        data-src={(cartItem.card_images && cartItem.card_images.length) ? cartItem.card_images[0].image_url : cartItem.card_images[0].image_url} />
+                        //src={DEFAULT_CARD_VALUE.card_images[0].image_url} 
+                        src={(cartItem.card_images && cartItem.card_images.length) ? cartItem.card_images[0].image_url : DEFAULT_CARD_VALUE.card_images[0].image_url} />
                 </Col>
                 <Col sm={3}>
                     <HeaderWrapper> {cartItem.name} </HeaderWrapper>
-                    <CenterWrapper> This card is a {cartItem.type} </CenterWrapper>
+                    <CenterWrapper> This card is a(n) {cartItem.type} </CenterWrapper>
+                    <CenterWrapper> {cartItem?.archetype} </CenterWrapper>
+                    <CenterWrapper> {cartItem?.race} </CenterWrapper>
                 </Col>
                 <Col sm={4}>
                     
