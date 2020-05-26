@@ -1,4 +1,5 @@
 import React from 'react';
+import Footer from './nav/Footer';
 import NavigationBar from './nav/NavigationBar';
 import MyRouter from './MyRouter';
 import { CardProvider } from './contexts/CardContext';
@@ -10,6 +11,7 @@ function App() {
       <CardProvider>
         <NavigationBar />
         <MyRouter />
+        <Footer />
       </CardProvider>
     </UserProvider>
   );

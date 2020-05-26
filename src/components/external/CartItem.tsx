@@ -3,7 +3,7 @@ import { CardContext } from "../../contexts/CardContext";
 import { Col, Row } from 'react-bootstrap';
 import styled from 'styled-components';
 import { ICardDetails, DEFAULT_CARD_VALUE } from '../internal/Cards';
-import CardModal from '../modals/CardModal';
+import CardModal from './../modals/CardModal';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
@@ -78,10 +78,7 @@ const CartItem = ({cartItem } : CartItemProps) => {
                 <Col sm={3}>
                     <img
                         width="100%"
-                        height="100%"
-                        //className="lazyload"
                         onClick={() => setModalShow(true)}
-                        //src={DEFAULT_CARD_VALUE.card_images[0].image_url} 
                         src={(cartItem.card_images && cartItem.card_images.length) ? cartItem.card_images[0].image_url : DEFAULT_CARD_VALUE.card_images[0].image_url} />
                 </Col>
                 <Col sm={3}>

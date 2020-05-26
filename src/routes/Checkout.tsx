@@ -176,7 +176,7 @@ function Checkout() {
                     onClick={() => checkoutCartItems()}
                     variant="dark"
                 >
-                     CHECKOUT
+                     SUBMIT YOUR ORDER
                 </CheckoutButton>
             </CheckoutFooterWrapper>
         </CenterCol>
